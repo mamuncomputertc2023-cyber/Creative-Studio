@@ -814,7 +814,7 @@ app.post('/api/v1/client/activate', (req, res) => {
     });
   }
 
-  if (target.status === 'revoked') {
+  if (target.status !== 'active') {
     return res.status(403).json({
       success: false,
       code: 'LICENSE_REVOKED',
@@ -865,6 +865,7 @@ app.post('/api/v1/client/activate', (req, res) => {
 
   const responseData = {
     valid: true,
+    licenseKey: cleanKey,
     product: target.product,
     type: target.type,
     customerName: target.customerName,
@@ -908,8 +909,8 @@ app.post('/api/v1/client/verify', (req, res) => {
     });
   }
 
-  // 1. Check if revoked
-  if (target.status === 'revoked') {
+  // 1. Check if revoked or not active
+  if (target.status !== 'active') {
     return res.json({
       valid: false,
       code: 'LICENSE_REVOKED',
@@ -946,6 +947,7 @@ app.post('/api/v1/client/verify', (req, res) => {
     valid: true,
     code: 'VALID',
     message: 'License is active and valid.',
+    licenseKey: cleanKey,
     customerName: target.customerName,
     product: target.product,
     expiresAt: target.expiresAt
