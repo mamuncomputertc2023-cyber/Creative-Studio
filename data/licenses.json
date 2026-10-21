@@ -40,7 +40,7 @@
     "status": "active",
     "maxDevices": 3,
     "activations": [],
-    "createdAt": "2026-10-21T05:50:43.260Z",
+    "createdAt": "2026-10-21T05:50:43.26Z",
     "expiresAt": null
   },
   {
@@ -55,7 +55,8 @@
     "activations": [],
     "createdAt": "2026-10-21T05:46:58.632Z",
     "expiresAt": null,
-    "batchTag": "AppSumo-Deal"
+    "batchTag": "AppSumo-Deal",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_1792561618632_3",
@@ -69,7 +70,8 @@
     "activations": [],
     "createdAt": "2026-10-21T05:46:58.632Z",
     "expiresAt": null,
-    "batchTag": "AppSumo-Deal"
+    "batchTag": "AppSumo-Deal",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_1792561618632_2",
@@ -83,7 +85,8 @@
     "activations": [],
     "createdAt": "2026-10-21T05:46:58.632Z",
     "expiresAt": null,
-    "batchTag": "AppSumo-Deal"
+    "batchTag": "AppSumo-Deal",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_1792561618632_1",
@@ -97,7 +100,8 @@
     "activations": [],
     "createdAt": "2026-10-21T05:46:58.632Z",
     "expiresAt": null,
-    "batchTag": "AppSumo-Deal"
+    "batchTag": "AppSumo-Deal",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_1792561618632_0",
@@ -111,7 +115,8 @@
     "activations": [],
     "createdAt": "2026-10-21T05:46:58.632Z",
     "expiresAt": null,
-    "batchTag": "AppSumo-Deal"
+    "batchTag": "AppSumo-Deal",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_1792561607550",
@@ -131,9 +136,10 @@
         "lastHeartbeat": "2026-10-21T05:46:52.906Z"
       }
     ],
-    "createdAt": "2026-10-21T05:46:47.550Z",
-    "expiresAt": "2026-11-04T05:46:47.550Z",
-    "notes": "Generated via public free trial portal"
+    "createdAt": "2026-10-21T05:46:47.55Z",
+    "expiresAt": "2026-11-04T05:46:47.55Z",
+    "notes": "Generated via public free trial portal",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_1792560875510",
@@ -154,38 +160,9 @@
         "lastHeartbeat": "2026-10-21T05:34:41.034Z"
       }
     ],
-    "createdAt": "2026-10-21T05:34:35.510Z",
-    "expiresAt": null
-  },
-  {
-    "id": "lic_1",
-    "key": "SAVR-9X82-KL41-MN88",
-    "product": "AutoSaviour Pro",
-    "customerName": "Studio Creative Labs",
-    "customerEmail": "admin@studiocreative.com",
-    "type": "lifetime",
-    "status": "active",
-    "maxDevices": 2,
-    "activations": [
-      {
-        "hwid": "HWID-DESKTOP-9881A2",
-        "deviceName": "Workstation-Main",
-        "os": "Windows 11 Pro",
-        "ip": "192.168.1.45",
-        "activatedAt": "2026-10-06T05:34:14.822Z",
-        "lastHeartbeat": "2026-10-21T05:34:14.827Z"
-      },
-      {
-        "hwid": "HWID-TEST-DESKTOP-01",
-        "deviceName": "Designer-PC-Office",
-        "os": "Unknown OS",
-        "ip": "::1",
-        "activatedAt": "2026-10-21T05:37:50.310Z",
-        "lastHeartbeat": "2026-10-21T05:42:22.900Z"
-      }
-    ],
-    "createdAt": "2026-09-21T05:34:14.827Z",
-    "expiresAt": null
+    "createdAt": "2026-10-21T05:34:35.51Z",
+    "expiresAt": null,
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_2",
@@ -198,7 +175,8 @@
     "maxDevices": 1,
     "activations": [],
     "createdAt": "2026-10-16T05:34:14.827Z",
-    "expiresAt": "2027-10-16T05:34:14.827Z"
+    "expiresAt": "2027-10-16T05:34:14.827Z",
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_3",
@@ -211,7 +189,8 @@
     "maxDevices": 5,
     "activations": [],
     "createdAt": "2026-10-21T05:34:14.827Z",
-    "expiresAt": null
+    "expiresAt": null,
+    "developerId": "dev_demo_creative_studio"
   },
   {
     "id": "lic_demo_01",

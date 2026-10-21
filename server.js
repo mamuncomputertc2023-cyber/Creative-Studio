@@ -748,21 +748,30 @@ app.post('/api/v1/licenses/batch-generate', authenticate, (req, res) => {
 app.post('/api/v1/licenses/revoke', authenticate, (req, res) => {
   const { key, reason = 'Administrative revocation' } = req.body;
   const licenses = readData(LICENSES_FILE, []);
-  const target = licenses.find(l => l.developerId === req.dev.id && l.key.toUpperCase() === String(key).trim().toUpperCase());
+  const cleanKey = String(key).trim().toUpperCase();
+  const target = licenses.find(l => (l.developerId === req.dev.id || !l.developerId) && l.key.toUpperCase() === cleanKey);
 
   if (!target) {
     return res.status(404).json({ success: false, message: 'License key not found in your account.' });
   }
 
-  target.status = target.status === 'revoked' ? 'active' : 'revoked';
-  target.revokedReason = target.status === 'revoked' ? reason : null;
+  const newStatus = target.status === 'revoked' ? 'active' : 'revoked';
+  // Update all instances of this key to maintain 100% database consistency
+  licenses.forEach(l => {
+    if (l.key.toUpperCase() === cleanKey) {
+      l.developerId = req.dev.id;
+      l.status = newStatus;
+      l.revokedReason = newStatus === 'revoked' ? reason : null;
+    }
+  });
+
   writeData(LICENSES_FILE, licenses);
 
-  logAudit(req.dev.id, target.status === 'revoked' ? 'LICENSE_REVOKED' : 'LICENSE_RESTORED', { key: target.key, reason });
+  logAudit(req.dev.id, newStatus === 'revoked' ? 'LICENSE_REVOKED' : 'LICENSE_RESTORED', { key: cleanKey, reason });
 
   res.json({
     success: true,
-    message: `License key status changed to ${target.status}`,
+    message: `License key status changed to ${newStatus}`,
     license: target
   });
 });
@@ -771,20 +780,26 @@ app.post('/api/v1/licenses/revoke', authenticate, (req, res) => {
 app.post('/api/v1/licenses/reset-hwid', authenticate, (req, res) => {
   const { key, hwid } = req.body;
   const licenses = readData(LICENSES_FILE, []);
-  const target = licenses.find(l => l.developerId === req.dev.id && l.key.toUpperCase() === String(key).trim().toUpperCase());
+  const cleanKey = String(key).trim().toUpperCase();
+  const target = licenses.find(l => (l.developerId === req.dev.id || !l.developerId) && l.key.toUpperCase() === cleanKey);
 
   if (!target) {
     return res.status(404).json({ success: false, message: 'License key not found in your account.' });
   }
 
-  if (hwid) {
-    target.activations = (target.activations || []).filter(a => a.hwid !== hwid);
-  } else {
-    target.activations = [];
-  }
+  licenses.forEach(l => {
+    if (l.key.toUpperCase() === cleanKey) {
+      l.developerId = req.dev.id;
+      if (hwid) {
+        l.activations = (l.activations || []).filter(a => a.hwid !== hwid);
+      } else {
+        l.activations = [];
+      }
+    }
+  });
 
   writeData(LICENSES_FILE, licenses);
-  logAudit(req.dev.id, 'DEVICE_RESET', { key: target.key, hwid: hwid || 'ALL' });
+  logAudit(req.dev.id, 'DEVICE_RESET', { key: cleanKey, hwid: hwid || 'ALL' });
 
   res.json({
     success: true,
