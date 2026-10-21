@@ -1,0 +1,233 @@
+[
+  {
+    "id": "log_1792565701886_kjsf",
+    "developerId": "dev_1792562948732_r4xt",
+    "event": "DEVELOPER_LOGGED_IN",
+    "details": {
+      "email": "alcreative360@gmail.com"
+    },
+    "timestamp": "2026-10-21T06:55:01.886Z"
+  },
+  {
+    "id": "log_1792564544933_8mlj",
+    "developerId": "dev_demo_creative_studio",
+    "event": "LICENSE_GENERATED",
+    "details": {
+      "key": "APEX-TJNT-Z8EC-S97U",
+      "product": "Apex brO",
+      "customerEmail": "alcreative360@gmail.com",
+      "type": "lifetime"
+    },
+    "timestamp": "2026-10-21T06:35:44.933Z"
+  },
+  {
+    "id": "log_1792564533154_ugbe",
+    "developerId": "dev_demo_creative_studio",
+    "event": "LICENSE_GENERATED",
+    "details": {
+      "key": "CUST-9GKS-LR4H-9KDG",
+      "product": "AutoSaviour Pro",
+      "customerEmail": "",
+      "type": "custom"
+    },
+    "timestamp": "2026-10-21T06:35:33.154Z"
+  },
+  {
+    "id": "log_1792564499134_m2hu",
+    "developerId": "dev_demo_creative_studio",
+    "event": "PRODUCT_CONFIGURED",
+    "details": {
+      "name": "Apex brO",
+      "prefix": "Apex"
+    },
+    "timestamp": "2026-10-21T06:34:59.134Z"
+  },
+  {
+    "id": "log_1792564366293_jcjw",
+    "developerId": "public",
+    "event": "FAILED_ACTIVATION_ATTEMPT",
+    "details": {
+      "key": "HWID-TEST-DESKTOP-01",
+      "hwid": "HWID-TEST-DESKTOP-01",
+      "ip": "::1"
+    },
+    "timestamp": "2026-10-21T06:32:46.293Z"
+  },
+  {
+    "id": "log_1792564364147_3rdj",
+    "developerId": "public",
+    "event": "FAILED_ACTIVATION_ATTEMPT",
+    "details": {
+      "key": "HWID-TEST-DESKTOP-01",
+      "hwid": "HWID-TEST-DESKTOP-01",
+      "ip": "::1"
+    },
+    "timestamp": "2026-10-21T06:32:44.147Z"
+  },
+  {
+    "id": "log_1792564363027_6c9j",
+    "developerId": "public",
+    "event": "FAILED_ACTIVATION_ATTEMPT",
+    "details": {
+      "key": "HWID-TEST-DESKTOP-01",
+      "hwid": "HWID-TEST-DESKTOP-01",
+      "ip": "::1"
+    },
+    "timestamp": "2026-10-21T06:32:43.027Z"
+  },
+  {
+    "id": "log_1792564335839_xqyg",
+    "developerId": "public",
+    "event": "FAILED_ACTIVATION_ATTEMPT",
+    "details": {
+      "key": "HWID-TEST-DESKTOP-01",
+      "hwid": "HWID-TEST-DESKTOP-01",
+      "ip": "::1"
+    },
+    "timestamp": "2026-10-21T06:32:15.839Z"
+  },
+  {
+    "id": "log_1792563644168_nbsy",
+    "developerId": "dev_demo_creative_studio",
+    "event": "LICENSE_RESTORED",
+    "details": {
+      "key": "SAVR-9X82-KL41-MN88",
+      "reason": "Administrative revocation"
+    },
+    "timestamp": "2026-10-21T06:20:44.168Z"
+  },
+  {
+    "id": "log_1792563621486_pa90",
+    "developerId": "dev_demo_creative_studio",
+    "event": "LICENSE_REVOKED",
+    "details": {
+      "key": "SAVR-9X82-KL41-MN88",
+      "reason": "Administrative revocation"
+    },
+    "timestamp": "2026-10-21T06:20:21.486Z"
+  },
+  {
+    "id": "log_1792562948737_f96l",
+    "developerId": "dev_1792562948732_r4xt",
+    "event": "DEVELOPER_REGISTERED",
+    "details": {
+      "name": "Al Mamun",
+      "email": "alcreative360@gmail.com"
+    },
+    "timestamp": "2026-10-21T06:09:08.737Z"
+  },
+  {
+    "id": "log_1792561843262_n09f",
+    "developerId": "dev_1792561818777_cyul",
+    "event": "LICENSE_GENERATED",
+    "details": {
+      "key": "MFX-QYEF-W7TN-FW9E",
+      "product": "Motion FX Suite",
+      "customerEmail": "vfx@paris.fr",
+      "type": "lifetime"
+    },
+    "timestamp": "2026-10-21T05:50:43.262Z"
+  },
+  {
+    "id": "log_1792561836716_6n32",
+    "developerId": "dev_1792561818777_cyul",
+    "event": "PRODUCT_CONFIGURED",
+    "details": {
+      "name": "Motion FX Suite",
+      "prefix": "MFX"
+    },
+    "timestamp": "2026-10-21T05:50:36.716Z"
+  },
+  {
+    "id": "log_1792561825059_0wxa",
+    "developerId": "dev_1792561818777_cyul",
+    "event": "DEVELOPER_LOGGED_IN",
+    "details": {
+      "email": "tanvir@studio.com"
+    },
+    "timestamp": "2026-10-21T05:50:25.059Z"
+  },
+  {
+    "id": "log_1792561818798_td2g",
+    "developerId": "dev_1792561818777_cyul",
+    "event": "DEVELOPER_REGISTERED",
+    "details": {
+      "name": "Tanvir Creator",
+      "email": "tanvir@studio.com"
+    },
+    "timestamp": "2026-10-21T05:50:18.798Z"
+  },
+  {
+    "id": "log_1792561628528_pcde",
+    "event": "SUPPORT_TICKET_SUBMITTED",
+    "details": {
+      "id": "tkt_1792561628527",
+      "email": "aiman@design.com",
+      "subject": "Need help moving license"
+    },
+    "timestamp": "2026-10-21T05:47:08.528Z"
+  },
+  {
+    "id": "log_1792561618634_mwbu",
+    "event": "BATCH_LICENSES_GENERATED",
+    "details": {
+      "count": 5,
+      "product": "AutoSaviour Pro",
+      "batchTag": "AppSumo-Deal"
+    },
+    "timestamp": "2026-10-21T05:46:58.634Z"
+  },
+  {
+    "id": "log_1792561612907_z06o",
+    "event": "OFFLINE_LICENSE_CERT_ISSUED",
+    "details": {
+      "key": "SAVR-YWJF-3M3G-CYBG",
+      "hwid": "OFFLINE_STUDIO_PC_01",
+      "product": "AutoSaviour Pro"
+    },
+    "timestamp": "2026-10-21T05:46:52.907Z"
+  },
+  {
+    "id": "log_1792561607552_ztlf",
+    "event": "FREE_TRIAL_REQUESTED",
+    "details": {
+      "key": "SAVR-YWJF-3M3G-CYBG",
+      "product": "AutoSaviour Pro",
+      "email": "aiman@design.com"
+    },
+    "timestamp": "2026-10-21T05:46:47.552Z"
+  },
+  {
+    "id": "log_1792561070313_2ejr",
+    "event": "DEVICE_ACTIVATED",
+    "details": {
+      "key": "SAVR-9X82-KL41-MN88",
+      "hwid": "HWID-TEST-DESKTOP-01",
+      "deviceName": "Designer-PC-Office",
+      "product": "AutoSaviour Pro"
+    },
+    "timestamp": "2026-10-21T05:37:50.313Z"
+  },
+  {
+    "id": "log_1792560881037_12tk",
+    "event": "DEVICE_ACTIVATED",
+    "details": {
+      "key": "SAVR-EENH-S9RQ-7SDY",
+      "hwid": "HWID_MACHINE_999",
+      "deviceName": "Illustrator-PC",
+      "product": "AutoSaviour Pro"
+    },
+    "timestamp": "2026-10-21T05:34:41.037Z"
+  },
+  {
+    "id": "log_1792560875514_0qps",
+    "event": "LICENSE_CREATED",
+    "details": {
+      "key": "SAVR-EENH-S9RQ-7SDY",
+      "product": "AutoSaviour Pro",
+      "customerEmail": "rahim@design.com",
+      "type": "lifetime"
+    },
+    "timestamp": "2026-10-21T05:34:35.514Z"
+  }
+]

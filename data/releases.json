@@ -1,0 +1,20 @@
+[
+  {
+    "id": "rel_1",
+    "product": "AutoSaviour Pro",
+    "version": "1.2.0",
+    "releaseDate": "2026-10-21T05:34:14.829Z",
+    "mandatory": false,
+    "changelog": "Added persistent user settings memory & custom auto-backup folder with automatic latest-file replacement.",
+    "downloadUrl": "https://updates.yourdomain.com/downloads/AutoSaviour_Setup_v1.2.0.exe"
+  },
+  {
+    "id": "rel_2",
+    "product": "Halftone Poster Studio",
+    "version": "1.0.0",
+    "releaseDate": "2026-10-11T05:34:14.829Z",
+    "mandatory": false,
+    "changelog": "Initial public launch with 5 Swiss style minimal vector poster presets.",
+    "downloadUrl": "https://updates.yourdomain.com/downloads/PosterStudio_Setup_v1.0.exe"
+  }
+]

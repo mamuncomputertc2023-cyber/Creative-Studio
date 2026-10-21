@@ -1,0 +1,81 @@
+[
+  {
+    "id": "prod_1",
+    "name": "AutoSaviour Pro",
+    "prefix": "SAVR",
+    "category": "Illustrator Plugin",
+    "latestVersion": "1.2.0",
+    "trialDays": 14,
+    "maxDefaultSeats": 2,
+    "downloadUrl": "https://updates.yourdomain.com/downloads/AutoSaviour_Setup_v1.2.0.exe",
+    "description": "Persistent automated backup, crash recovery and unsaved artboards safety guard for Adobe Illustrator."
+  },
+  {
+    "id": "prod_2",
+    "name": "Halftone Poster Studio",
+    "prefix": "POST",
+    "category": "Illustrator Extension",
+    "latestVersion": "1.0.0",
+    "trialDays": 14,
+    "maxDefaultSeats": 2,
+    "downloadUrl": "https://updates.yourdomain.com/downloads/PosterStudio_Setup_v1.0.exe",
+    "description": "Instant Swiss minimal vector poster maker, CMYK duotones and halftone engraving generator."
+  },
+  {
+    "id": "prod_3",
+    "name": "Vector CleanUp Master",
+    "prefix": "VCLN",
+    "category": "Desktop Utility",
+    "latestVersion": "1.1.0",
+    "trialDays": 7,
+    "maxDefaultSeats": 1,
+    "downloadUrl": "https://updates.yourdomain.com/downloads/VectorCleanUp_v1.1.0.exe",
+    "description": "Path optimization, redundant anchor point reduction, layer flattener and EPS cleaner."
+  },
+  {
+    "id": "prod_1792561836714",
+    "developerId": "dev_1792561818777_cyul",
+    "name": "Motion FX Suite",
+    "prefix": "MFX",
+    "category": "Adobe After Effects Plugin",
+    "latestVersion": "2.0.0",
+    "trialDays": 14,
+    "downloadUrl": "",
+    "description": "Real-time motion graphic presets."
+  },
+  {
+    "id": "prod_1",
+    "developerId": "dev_demo_creative_studio",
+    "name": "AutoSaviour Pro",
+    "prefix": "SAVR",
+    "category": "Adobe Illustrator Plugin",
+    "latestVersion": "1.2.0",
+    "trialDays": 14,
+    "maxDefaultSeats": 2,
+    "downloadUrl": "https://updates.yourdomain.com/downloads/AutoSaviour_Setup_v1.2.0.exe",
+    "description": "Persistent automated backup, crash recovery and unsaved artboards safety guard for Adobe Illustrator."
+  },
+  {
+    "id": "prod_2",
+    "developerId": "dev_demo_creative_studio",
+    "name": "Halftone Poster Studio",
+    "prefix": "POST",
+    "category": "Adobe Illustrator Extension",
+    "latestVersion": "1.0.0",
+    "trialDays": 14,
+    "maxDefaultSeats": 2,
+    "downloadUrl": "https://updates.yourdomain.com/downloads/PosterStudio_Setup_v1.0.exe",
+    "description": "Instant Swiss minimal vector poster maker, CMYK duotones and halftone engraving generator."
+  },
+  {
+    "id": "prod_1792564499132",
+    "developerId": "dev_demo_creative_studio",
+    "name": "Apex brO",
+    "prefix": "APEX",
+    "category": "Desktop Application",
+    "latestVersion": "1.0.0",
+    "trialDays": 14,
+    "downloadUrl": "",
+    "description": ""
+  }
+]

@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LicenseKey PRO • Free Software Licensing &amp; Anti-Piracy Cloud for Developers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ============================================== -->
+  <!-- 1. PUBLIC LANDING VIEW (When Not Logged In)    -->
+  <!-- ============================================== -->
+  <div id="viewPublicLanding" class="public-landing">
+    <!-- Public Header -->
+    <header class="public-header">
+      <div class="public-nav">
+        <div class="public-brand">
+          <div class="brand-emblem">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <circle cx="12" cy="11" r="3"></circle>
+              <path d="M12 14v3"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 class="brand-title"><strong style="color:var(--primary); font-weight:900;">GUARD</strong><strong style="color:var(--bd-red); font-weight:900;">SCALE</strong> <span style="font-size: 0.72rem; background: rgba(0,106,78,0.1); color: var(--primary); padding: 2px 7px; border-radius: 999px;">Cloud</span></h2>
+            <span class="free-badge">100% Free Public Platform</span>
+          </div>
+        </div>
+
+        <div class="nav-links" id="publicNavLinks">
+          <button class="nav-link-btn" onclick="scrollToSection('features')">Features</button>
+          <button class="btn btn-secondary btn-sm" onclick="openAuthModal('login')">Sign In</button>
+          <button class="btn btn-primary btn-sm" onclick="openAuthModal('register')">Register Free Account</button>
+        </div>
+
+        <button class="mobile-nav-toggle" id="btnPublicNavToggle" aria-label="Toggle Menu">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section: GuardScale Animated Biometric Shield Theme -->
+    <section class="landing-hero-guard">
+      <div class="guard-hero-container">
+        <!-- Left Hero Content -->
+        <div class="guard-hero-content">
+          <div class="guard-hero-badge">
+            <span class="badge-pulse-red"></span>
+            100% Free Open Platform for Creators
+          </div>
+          <h1 class="guard-hero-title">
+            <span class="text-crimson">Protect</span> Your Software.<br>
+            <span class="text-crimson">Scale</span> Without Limits.
+          </h1>
+          <p class="guard-hero-sub">
+            State-of-the-art security for software &amp; Adobe Illustrator plugin developers in Bangladesh and beyond. Eliminate piracy, manage licenses, and grow with confidence.
+          </p>
+
+          <div class="guard-hero-actions">
+            <button class="btn btn-primary btn-lg" onclick="openAuthModal('register')">
+              Get Free Access
+            </button>
+            <button class="btn btn-outline-crimson btn-lg" onclick="triggerDemoLogin()">
+              Explore Features
+            </button>
+          </div>
+
+          <!-- Platform Pill Row -->
+          <div class="guard-platforms-strip">
+            <span class="strip-label">Supported Environments:</span>
+            <div class="strip-badges">
+              <span class="strip-badge"><strong style="color: #ff9a00;">Ai</strong> Adobe Illustrator</span>
+              <span class="strip-badge"><strong style="color: #31a8ff;">Ps</strong> Photoshop</span>
+              <span class="strip-badge"><strong style="color: #ea7600;">3D</strong> Blender</span>
+              <span class="strip-badge"><strong style="color: #0078d4;">.NET</strong> Windows</span>
+              <span class="strip-badge"><strong style="color: #ffd43b;">Py</strong> Python</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Stage: 3D Animated Biometric Shield Visual System -->
+        <div class="guard-hero-stage">
+          <div class="shield-stage-wrapper">
+            <!-- Background Decorative Grid Lines -->
+            <div class="stage-grid-lines"></div>
+
+            <!-- Outer Rotating Emerald Cryptographic Ring -->
+            <div class="shield-orbit-ring ring-outer">
+              <svg viewBox="0 0 500 500" class="ring-svg">
+                <circle cx="250" cy="250" r="230" fill="none" stroke="rgba(0, 106, 78, 0.25)" stroke-width="2" stroke-dasharray="12 10" />
+                <circle cx="250" cy="250" r="215" fill="none" stroke="rgba(0, 106, 78, 0.45)" stroke-width="4" stroke-dasharray="80 18 30 18 120 20" />
+                <path id="circlePath" d="M 250, 250 m -200, 0 a 200,200 0 1,1 400,0 a 200,200 0 1,1 -400,0" fill="none" />
+                <text font-family="monospace" font-size="10" font-weight="700" fill="#006a4e" letter-spacing="2">
+                  <textPath href="#circlePath" startOffset="5%">01010010 🔒 HWID-LOCK 🛡️ 01011111 🔑 SHA-256 ⚡ OTA-UPDATE 🚀 01101101 🌐 ANTI-CRACK</textPath>
+                </text>
+              </svg>
+            </div>
+
+            <!-- Inner Counter-Rotating Orbit Ring with Glow -->
+            <div class="shield-orbit-ring ring-inner">
+              <svg viewBox="0 0 400 400" class="ring-svg">
+                <circle cx="200" cy="200" r="180" fill="none" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1.5" stroke-dasharray="4 6" />
+                <circle cx="200" cy="200" r="165" fill="none" stroke="url(#emeraldGlowGrad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="45 80" />
+                <defs>
+                  <linearGradient id="emeraldGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#006a4e" stop-opacity="0.2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <!-- Central Floating 3D Biometric Shield -->
+            <div class="biometric-shield-center">
+              <!-- Holographic Ambient Back-Glow -->
+              <div class="shield-ambient-glow"></div>
+
+              <!-- 3D Glassmorphic Shield Body -->
+              <div class="glass-shield-body">
+                <svg viewBox="0 0 240 280" class="shield-svg">
+                  <defs>
+                    <linearGradient id="shieldRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+                      <stop offset="30%" stop-color="#34d399" stop-opacity="0.85" />
+                      <stop offset="70%" stop-color="#006a4e" stop-opacity="0.75" />
+                      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="shieldGlassFacetL" x1="0%" y1="0%" x2="100%" y2="80%">
+                      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.75)" />
+                      <stop offset="50%" stop-color="rgba(16, 185, 129, 0.2)" />
+                      <stop offset="100%" stop-color="rgba(0, 106, 78, 0.35)" />
+                    </linearGradient>
+                    <linearGradient id="shieldGlassFacetR" x1="100%" y1="0%" x2="0%" y2="80%">
+                      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.55)" />
+                      <stop offset="50%" stop-color="rgba(16, 185, 129, 0.15)" />
+                      <stop offset="100%" stop-color="rgba(0, 106, 78, 0.45)" />
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Outer Shield Bezel -->
+                  <path d="M 120 10 L 220 50 L 220 150 Q 220 220 120 270 Q 20 220 20 150 L 20 50 Z" 
+                        fill="none" stroke="url(#shieldRimGrad)" stroke-width="5" stroke-linejoin="round" />
+
+                  <!-- Left Prism Facet -->
+                  <path d="M 120 14 L 24 52 L 24 150 Q 24 218 120 266 Z" 
+                        fill="url(#shieldGlassFacetL)" />
+
+                  <!-- Right Prism Facet -->
+                  <path d="M 120 14 L 216 52 L 216 150 Q 216 218 120 266 Z" 
+                        fill="url(#shieldGlassFacetR)" />
+
+                  <!-- Prismatic Center Crease Line -->
+                  <line x1="120" y1="12" x2="120" y2="268" stroke="rgba(255, 255, 255, 0.9)" stroke-width="2.5" />
+                </svg>
+
+                <!-- Pulsing Crimson Biometric Core (The Red Sun) -->
+                <div class="crimson-core-container">
+                  <div class="core-pulsing-rings">
+                    <span class="core-wave wave-1"></span>
+                    <span class="core-wave wave-2"></span>
+                    <span class="core-wave wave-3"></span>
+                  </div>
+                  <div class="crimson-core-orb">
+                    <!-- Glowing Hexagonal Circuit Nodes -->
+                    <svg viewBox="0 0 100 100" class="core-circuit-svg">
+                      <polygon points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5" fill="none" stroke="rgba(255, 120, 140, 0.9)" stroke-width="2.5" />
+                      <polygon points="50,15 80,32 80,68 50,85 20,68 20,32" fill="rgba(244, 42, 65, 0.35)" stroke="#f42a41" stroke-width="2" />
+                      <!-- Fingerprint / Microchip Lines -->
+                      <path d="M 50 30 Q 65 30 65 50 T 50 70 Q 35 70 35 50" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.85" />
+                      <path d="M 50 38 Q 58 38 58 50 T 50 62 Q 42 62 42 50" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.95" />
+                      <circle cx="50" cy="50" r="5" fill="#ffffff" filter="drop-shadow(0 0 6px #fff)" />
+                    </svg>
+
+                    <!-- Laser Biometric Scanning Beam -->
+                    <div class="core-laser-beam"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 Symmetrical Floating Glassmorphic Metric Cards -->
+            <!-- Card 1: Top Left - Instant HWID Lock -->
+            <div class="floating-glass-card card-top-left">
+              <div class="card-inner-flex">
+                <div class="card-icon-emerald">⚡</div>
+                <div class="card-text-block">
+                  <span class="card-title-strong">Instant HWID Lock</span>
+                  <div class="live-progress-track">
+                    <div class="live-progress-bar bar-emerald"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Top Right - HMAC-SHA256 Response -->
+            <div class="floating-glass-card card-top-right">
+              <div class="card-inner-flex">
+                <div class="card-icon-emerald">🛡️</div>
+                <div class="card-text-block">
+                  <span class="card-title-strong">HMAC-SHA256 Seal</span>
+                  <div class="live-progress-track">
+                    <div class="live-progress-bar bar-emerald"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Bottom Left - 100% Free Platform -->
+            <div class="floating-glass-card card-bot-left">
+              <div class="card-inner-flex">
+                <div class="card-icon-check">✓</div>
+                <div class="card-text-block">
+                  <span class="card-title-strong">100% Free Platform</span>
+                  <div class="live-progress-track">
+                    <div class="live-progress-bar bar-crimson-solid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Bottom Right - Zero Piracy Leakage -->
+            <div class="floating-glass-card card-bot-right">
+              <div class="card-inner-flex">
+                <div class="card-icon-crimson">🚫</div>
+                <div class="card-text-block">
+                  <span class="card-title-strong">Zero Piracy Leakage</span>
+                  <div class="live-progress-track">
+                    <div class="live-progress-bar bar-crimson"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Platform Counters Section -->
+    <section class="landing-stats-section">
+      <div class="stats-counter-bar">
+        <div class="stat-counter-item">
+          <div class="counter-number" id="pubStatDevelopers">1</div>
+          <div class="counter-label">Active Developers</div>
+        </div>
+        <div class="stat-counter-item">
+          <div class="counter-number" id="pubStatProducts">3</div>
+          <div class="counter-label">Products Protected</div>
+        </div>
+        <div class="stat-counter-item">
+          <div class="counter-number" id="pubStatLicenses">5</div>
+          <div class="counter-label">Licenses Issued</div>
+        </div>
+        <div class="stat-counter-item">
+          <div class="counter-number" id="pubStatActivations">2</div>
+          <div class="counter-label">HWID Bindings</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Step Visual Workflow Pipeline -->
+    <section class="landing-pipeline">
+      <div class="section-title-center">
+        <h2>How It Works in 3 Simple Steps</h2>
+        <p>From instant key issuance to remote Google Drive updates — zero friction.</p>
+      </div>
+
+      <div class="pipeline-cards-grid">
+        <div class="pipeline-card">
+          <div class="pipeline-step-badge">1</div>
+          <div class="pipeline-icon">⚡</div>
+          <h3>Issue Cryptographic Keys</h3>
+          <p>Generate single customized keys or export 100+ bulk CSV batches with Lifetime, Annual, or Custom Day durations.</p>
+        </div>
+
+        <div class="pipeline-arrow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </div>
+
+        <div class="pipeline-card">
+          <div class="pipeline-step-badge">2</div>
+          <div class="pipeline-icon">🔐</div>
+          <h3>Lock Machine HWID</h3>
+          <p>On software launch, the license binds cryptographically to the client motherboard and CPU, killing piracy instantly.</p>
+        </div>
+
+        <div class="pipeline-arrow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </div>
+
+        <div class="pipeline-card">
+          <div class="pipeline-step-badge">3</div>
+          <div class="pipeline-icon">🚀</div>
+          <h3>Deploy Remote Updates</h3>
+          <p>Upload new versions or share a Google Drive download link. All active user software checks and updates on startup.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="landing-features" id="features">
+      <div class="section-title-center">
+        <h2>Everything You Need to Monetize &amp; Protect Your Software</h2>
+        <p>Built for plugin builders, indie hackers, and software studios. Completely free forever.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon teal">🔐</div>
+          <h3>Hardware ID (HWID) Locking</h3>
+          <p>Prevent software piracy by binding each license key to the user's computer motherboard and hardware specs with customizable seat counts.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon blue">⚡</div>
+          <h3>Instant Key Generation &amp; Batch CSV</h3>
+          <p>Generate single keys on demand or export batches of 100 license keys in CSV format ready for distribution on Gumroad, AppSumo, or your store.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon purple">🚀</div>
+          <h3>Remote Software Update Hub</h3>
+          <p>Broadcast new plugin versions, changelogs, and download links. Your software checks for updates on launch and alerts users automatically.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon green">🛡️</div>
+          <h3>HMAC-SHA256 Response Signing</h3>
+          <p>Every server response is cryptographically signed using your private developer secret key so cracked clients cannot spoof fake valid licenses.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon amber">🔄</div>
+          <h3>Self-Service Device Reset</h3>
+          <p>Allow your users to unbind their old laptops when upgrading hardware, eliminating manual support tickets and freeing up license seats instantly.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon cyan">📦</div>
+          <h3>Multi-Product Architecture</h3>
+          <p>Manage all your Adobe Illustrator plugins, Photoshop extensions, Blender scripts, and desktop software from a single central command center.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Public Footer -->
+    <footer class="public-footer">
+      <div class="public-footer-inner">
+        <p>© 2026 LicenseKey PRO • The Free Public Licensing &amp; Anti-Piracy Cloud. Fully Open &amp; Free of Cost.</p>
+      </div>
+    </footer>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- 2. DEVELOPER WORKSPACE (When Logged In)        -->
+  <!-- ============================================== -->
+  <div id="viewWorkspace" class="app-shell" style="display: none;">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-emblem">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <circle cx="12" cy="11" r="3"></circle>
+            <path d="M12 14v3"></path>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h2 id="sideDevStudio">My Studio</h2>
+          <span class="server-status"><span class="status-dot"></span> Developer Active</span>
+        </div>
+      </div>
+
+      <!-- Navigation for Developer -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Developer Workspace</div>
+        <button class="nav-item active" data-tab="dev-analytics">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Dashboard &amp; Telemetry
+        </button>
+        <button class="nav-item" data-tab="dev-products">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          My Products Catalog
+        </button>
+        <button class="nav-item" data-tab="dev-licenses">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-1-1l-3 3m2-2l-3 3m2-2l-3 3m2-2l-3 3"></path><circle cx="7.5" cy="15.5" r="5.5"></circle></svg>
+          Manage License Keys
+        </button>
+        <button class="nav-item" data-tab="dev-generator">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          Generate Single Key
+        </button>
+        <button class="nav-item" data-tab="dev-batch">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          Batch Keys (Bulk CSV)
+        </button>
+        <button class="nav-item" data-tab="dev-releases">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path></svg>
+          Remote Updates Hub
+        </button>
+        <button class="nav-item" data-tab="dev-integration">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          Integration Code (CEP/UXP)
+        </button>
+        <button class="nav-item" data-tab="dev-simulator">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Plugin API Simulator
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="security-card">
+          <span class="security-title">🔑 Your Developer API Key</span>
+          <div class="api-key-pill" id="sideApiKey" onclick="copyApiKey()" title="Click to copy API Key">
+            pk_live_...
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btnLogout" style="width: 100%; margin-top: 0.75rem;">
+          🚪 Log Out
+        </button>
+      </div>
+    </aside>
+
+    <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-body">
+      
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-nav-toggle" id="btnMobileSidebarToggle" aria-label="Toggle Sidebar">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="breadcrumbs">
+            <span id="topbarDevName">Developer Workspace</span> • <strong id="topbarTabTitle">Dashboard &amp; Telemetry</strong>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button id="btnWorkspaceExport" class="btn btn-secondary btn-sm" title="Export complete workspace backup">
+            💾 Export JSON
+          </button>
+          <button id="btnQuickCreateKey" class="btn btn-primary btn-sm" onclick="switchTab('dev-generator')">
+            ➕ Generate Key
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Scroll Container -->
+      <div class="content-scroll">
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: DASHBOARD & TELEMETRY                  -->
+        <!-- ============================================== -->
+        <section id="tab-dev-analytics" class="view-panel active">
+          <div class="panel-header">
+            <div>
+              <h1>Software Licenses &amp; Protection Overview</h1>
+              <p>Real-time metrics for your registered software, plugins, and activations.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btnRefreshDevStats">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+              Refresh
+            </button>
+          </div>
+
+          <!-- KPI Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">My Software Products</span>
+                <span class="kpi-icon purple">📦</span>
+              </div>
+              <div class="kpi-value" id="kpiMyProducts">0</div>
+              <div class="kpi-sub">Active plugins and software</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Total Licenses Issued</span>
+                <span class="kpi-icon teal">🔑</span>
+              </div>
+              <div class="kpi-value" id="kpiMyLicenses">0</div>
+              <div class="kpi-sub">Active &amp; trial keys</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Activated Machines (HWID)</span>
+                <span class="kpi-icon blue">🖥️</span>
+              </div>
+              <div class="kpi-value blue-text" id="kpiMyDevices">0</div>
+              <div class="kpi-sub">Locked customer workstations</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Published Releases</span>
+                <span class="kpi-icon green">🚀</span>
+              </div>
+              <div class="kpi-value green-text" id="kpiMyReleases">0</div>
+              <div class="kpi-sub">Remote updates available</div>
+            </div>
+          </div>
+
+          <!-- Visual Analytics Charts (Pure Canvas) -->
+          <div class="section-grid-2">
+            <div class="content-box">
+              <div class="box-header">
+                <h3>License Growth (Last 7 Days)</h3>
+                <span class="badge badge-info">Timeline</span>
+              </div>
+              <canvas id="chartTimeline" height="180"></canvas>
+            </div>
+
+            <div class="content-box">
+              <div class="box-header">
+                <h3>License Tier Distribution</h3>
+                <span class="badge badge-pulse">Breakdown</span>
+              </div>
+              <canvas id="chartTiers" height="180"></canvas>
+            </div>
+          </div>
+
+          <!-- Audit Logs -->
+          <div class="content-box">
+            <div class="box-header">
+              <h3>Live Security &amp; Activation Trail</h3>
+              <span class="badge badge-pulse">Real-Time</span>
+            </div>
+            <div class="audit-list" id="auditLogList"></div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: PRODUCTS CATALOG                       -->
+        <!-- ============================================== -->
+        <section id="tab-dev-products" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>My Software Products Catalog</h1>
+              <p>Add and configure your Adobe Illustrator plugins, desktop utilities, or SaaS products.</p>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <!-- Add Product Form -->
+            <div class="form-card">
+              <h3>Add / Configure Software Product</h3>
+              <form id="formAddProduct">
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="prodName">Software / Plugin Name</label>
+                    <input type="text" id="prodName" class="input-control" placeholder="e.g. Vector Master Studio" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="prodPrefix">License Key Prefix (3-5 letters)</label>
+                    <input type="text" id="prodPrefix" class="input-control" placeholder="e.g. VMST" maxlength="5" required>
+                  </div>
+                </div>
+
+                <div class="form-grid-3">
+                  <div class="form-group">
+                    <label for="prodCategory">Category</label>
+                    <select id="prodCategory" class="input-control">
+                      <option value="Adobe Illustrator Plugin">Adobe Illustrator Plugin</option>
+                      <option value="Adobe Illustrator Extension">Adobe Illustrator Extension</option>
+                      <option value="Adobe Photoshop Plugin">Adobe Photoshop Plugin</option>
+                      <option value="Desktop Application">Desktop Application</option>
+                      <option value="Web SaaS Tool">Web SaaS Tool</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="prodVersion">Initial Version</label>
+                    <input type="text" id="prodVersion" class="input-control" value="1.0.0" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="prodTrialDays">Default Trial Days</label>
+                    <input type="number" id="prodTrialDays" class="input-control" value="14" min="1" max="90">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="prodDownloadUrl">Download URL (Binary Installer / Setup)</label>
+                  <input type="url" id="prodDownloadUrl" class="input-control" placeholder="Direct link, Google Drive, Dropbox, or GitHub Releases">
+                  <span style="font-size: 0.74rem; color: var(--bd-green); margin-top: 3px;">💡 Paste download link from Google Drive, Dropbox, GitHub Releases, or direct server URL.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="prodDesc">Product Description</label>
+                  <textarea id="prodDesc" class="input-control" rows="3" placeholder="Brief description of this software tool..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  💾 Save Product to My Catalog
+                </button>
+              </form>
+            </div>
+
+            <!-- Existing Products List -->
+            <div class="content-box">
+              <h3>Registered Software in Your Account</h3>
+              <div id="devProductsList" class="products-full-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 3: MANAGE LICENSE KEYS                    -->
+        <!-- ============================================== -->
+        <section id="tab-dev-licenses" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>License Keys Management</h1>
+              <p>Monitor, search, suspend, renew and unbind devices for your customer licenses.</p>
+            </div>
+            <div class="header-tools">
+              <input type="text" id="devSearchInput" class="input-control" placeholder="Search key, client name, email..." style="width: 250px;">
+              <select id="filterProduct" class="select-control">
+                <option value="ALL">All Products</option>
+              </select>
+              <select id="filterStatus" class="select-control">
+                <option value="ALL">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="revoked">Revoked / Suspended</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>License Key</th>
+                  <th>Customer</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Devices (HWID)</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="devLicensesTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 4: GENERATE SINGLE KEY                    -->
+        <!-- ============================================== -->
+        <section id="tab-dev-generator" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>Issue Single Software License</h1>
+              <p>Generate cryptographically secure license keys for your software products.</p>
+            </div>
+          </div>
+
+          <div class="form-container">
+            <form id="formGenLicense" class="form-card">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="genProduct">Select Product</label>
+                  <select id="genProduct" class="input-control" required></select>
+                </div>
+
+                <div class="form-group">
+                  <label for="genPrefix">License Prefix</label>
+                  <input type="text" id="genPrefix" class="input-control" value="KEY" maxlength="5">
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="genCustName">Customer / Studio Name</label>
+                  <input type="text" id="genCustName" class="input-control" placeholder="e.g. Apex Agency" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="genCustEmail">Customer Email Address</label>
+                  <input type="email" id="genCustEmail" class="input-control" placeholder="e.g. client@studio.com" required>
+                </div>
+              </div>
+
+              <div class="form-grid-3">
+                <div class="form-group">
+                  <label for="genType">License Tier</label>
+                  <select id="genType" class="input-control">
+                    <option value="lifetime">Lifetime License (Perpetual)</option>
+                    <option value="yearly">1-Year Subscription</option>
+                    <option value="monthly">Monthly Subscription</option>
+                    <option value="trial">14-Day Free Trial</option>
+                    <option value="custom">Custom Days (Set Duration)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="genMaxDevices">Max Allowed Devices (Seats)</label>
+                  <input type="number" id="genMaxDevices" class="input-control" value="2" min="1" max="100">
+                </div>
+
+                <div class="form-group" id="genDurationGroup">
+                  <label for="genDuration" id="genDurationLabel">Trial / Custom Days</label>
+                  <input type="number" id="genDuration" class="input-control" value="30" min="1" max="3650" placeholder="e.g. 7, 30, 90, 180">
+                  <small id="genDurationHint" style="font-size: 0.74rem; color: var(--text-dim); display: block; margin-top: 4px;">For Trial or Custom Days</small>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg">
+                ⚡ Generate &amp; Register License Key
+              </button>
+            </form>
+
+            <div id="genResultBox" class="result-box" style="display: none;">
+              <div class="result-header">
+                <span class="result-tag">KEY CREATED SUCCESSFULLY</span>
+                <button id="btnCopyGenKey" class="btn btn-secondary btn-sm">Copy Key</button>
+              </div>
+              <div class="key-display" id="dispGenKey">KEY-XXXX-XXXX-XXXX</div>
+              <div class="key-meta" id="dispGenMeta"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 5: BATCH GENERATOR (BULK CSV)             -->
+        <!-- ============================================== -->
+        <section id="tab-dev-batch" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>Batch License Generator (Bulk CSV Export)</h1>
+              <p>Generate dozens of keys at once for sales promotions, AppSumo, Gumroad, or enterprise bulk licenses.</p>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <div class="form-card">
+              <h3>Bulk Generator Settings</h3>
+              <form id="formBatchGen">
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="batchCount">Number of Keys to Generate</label>
+                    <input type="number" id="batchCount" class="input-control" value="20" min="1" max="100" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="batchProduct">Target Product</label>
+                    <select id="batchProduct" class="input-control" required></select>
+                  </div>
+                </div>
+
+                <div class="form-grid-3">
+                  <div class="form-group">
+                    <label for="batchPrefix">Key Prefix</label>
+                    <input type="text" id="batchPrefix" class="input-control" value="PRO" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label for="batchType">License Tier</label>
+                    <select id="batchType" class="input-control">
+                      <option value="lifetime">Lifetime (Perpetual)</option>
+                      <option value="yearly">1-Year Subscription</option>
+                      <option value="monthly">Monthly Subscription</option>
+                      <option value="trial">14-Day Free Trial</option>
+                      <option value="custom">Custom Days (Set Duration)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="batchSeats">Seats / Devices</label>
+                    <input type="number" id="batchSeats" class="input-control" value="2" min="1" max="50">
+                  </div>
+                </div>
+
+                <div class="form-group" id="batchDurationGroup" style="display: none;">
+                  <label for="batchDuration">Custom Duration (Days)</label>
+                  <input type="number" id="batchDuration" class="input-control" value="30" min="1" max="3650" placeholder="e.g. 7, 30, 90, 180">
+                </div>
+
+                <div class="form-group">
+                  <label for="batchTag">Campaign Tag / Batch Label</label>
+                  <input type="text" id="batchTag" class="input-control" value="Promo-Batch-2026">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">
+                  ⚡ Generate Batch Keys Now
+                </button>
+              </form>
+            </div>
+
+            <div class="content-box">
+              <div class="box-header">
+                <h3>Batch Output &amp; CSV Export</h3>
+                <button id="btnDownloadBatchCsv" class="btn btn-secondary btn-sm" style="display: none;">
+                  📥 Download CSV
+                </button>
+              </div>
+              <div id="batchResultsList" class="batch-results-box">
+                <p style="color: var(--text-dim); font-size: 0.85rem;">No batch generated yet. Configure options and click Generate.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 6: RELEASES & REMOTE UPDATES              -->
+        <!-- ============================================== -->
+        <section id="tab-dev-releases" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>Software Releases &amp; Remote Updates</h1>
+              <p>Publish newer versions of your plugins so users receive update notifications instantly.</p>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <div class="form-card">
+              <h3>Publish New Software Version</h3>
+              <form id="formPublishRelease">
+                <div class="form-group">
+                  <label for="relProduct">Target Product</label>
+                  <select id="relProduct" class="input-control" required></select>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="relVersion">New Version Number</label>
+                    <input type="text" id="relVersion" class="input-control" placeholder="e.g. 1.3.0" required>
+                  </div>
+                  <div class="form-group checkbox-align">
+                    <label class="custom-checkbox">
+                      <input type="checkbox" id="relMandatory">
+                      <span>Mandatory Update (Forces user to update)</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="relDownloadUrl">Binary Download URL</label>
+                  <input type="url" id="relDownloadUrl" class="input-control" placeholder="Direct link, Google Drive, Dropbox, or GitHub Releases" required>
+                  <span style="font-size: 0.74rem; color: var(--bd-green); margin-top: 3px;">💡 Supports Google Drive, Dropbox, GitHub Releases, or direct binary downloads.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="relChangelog">What's New in this Version (Changelog)</label>
+                  <textarea id="relChangelog" class="input-control" rows="4" placeholder="Detail improvements, bug fixes, or new features..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  🚀 Publish Version &amp; Broadcast Update
+                </button>
+              </form>
+            </div>
+
+            <div class="content-box">
+              <h3>Published Releases History</h3>
+              <div class="releases-feed" id="devReleasesFeed"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 7: INTEGRATION CODE SNIPPETS              -->
+        <!-- ============================================== -->
+        <section id="tab-dev-integration" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>Universal Software Integration SDK &amp; Tutorials</h1>
+              <p>Ready-to-use code snippets and step-by-step tutorials to protect your Adobe Plugins, C# Apps, Python Tools, Electron Software, and Web SaaS.</p>
+            </div>
+          </div>
+
+          <!-- Integration Platform Selector Tabs -->
+          <div class="sdk-platform-tabs">
+            <button class="sdk-tab-btn active" onclick="switchSdkTab('illustrator')">
+              🎨 Adobe CEP / UXP
+            </button>
+            <button class="sdk-tab-btn" onclick="switchSdkTab('csharp')">
+              🖥️ C# / .NET (Windows)
+            </button>
+            <button class="sdk-tab-btn" onclick="switchSdkTab('python')">
+              🐍 Python (PyQt / Blender)
+            </button>
+            <button class="sdk-tab-btn" onclick="switchSdkTab('electron')">
+              ⚡ Electron / Node.js
+            </button>
+            <button class="sdk-tab-btn" onclick="switchSdkTab('cpp')">
+              ⚙️ C++ / Qt Native
+            </button>
+            <button class="sdk-tab-btn" onclick="switchSdkTab('php')">
+              🌐 PHP / Web SaaS
+            </button>
+            <button class="sdk-tab-btn" onclick="switchSdkTab('rest')">
+              📡 cURL / REST API
+            </button>
+          </div>
+
+          <!-- Tutorial Guide Callout -->
+          <div class="tutorial-guide-card">
+            <div class="tutorial-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Generate Unique HWID:</strong> Extract client motherboard, CPU, or MAC address to lock licenses to single workstations and prevent piracy.
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Send Activation Request:</strong> Dispatch a POST request to <code>/api/v1/client/activate</code> with the license key and machine HWID.
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Cache Locally:</strong> Save validated response tokens in local storage so the software launches instantly offline.
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>Check Remote Updates:</strong> Query <code>/api/v1/client/check-update</code> on application startup to notify users of new releases.
+              </div>
+            </div>
+          </div>
+
+          <!-- SDK Code Panels -->
+          <div class="code-snippets-container">
+
+            <!-- TAB 1: Adobe CEP / UXP -->
+            <div id="sdk-illustrator" class="sdk-panel active">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>Adobe Illustrator / Photoshop (JavaScript CEP / UXP)</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codeCepFull')">Copy Code</button>
+                </div>
+                <pre><code id="codeCepFull">/**
+ * Adobe Illustrator CEP / UXP License &amp; Update Guard
+ * File: licenseClient.js
+ */
+
+const LICENSE_SERVER = "http://localhost:4000";
+
+// 1. Extract unique HWID from user's machine
+function getMachineHWID() {
+  if (window.cep &amp;&amp; window.cep.process) {
+    // CEP Environment: Use MAC/Computer Name
+    return "CEP_" + (window.navigator.userAgent.replace(/\s+/g, '') + "_" + screen.width + "x" + screen.height);
+  }
+  return "UXP_" + (window.navigator.userAgent + "_" + screen.width + "x" + screen.height);
+}
+
+// 2. Activate License Key
+async function activatePluginLicense(licenseKey, productName = "AutoSaviour Pro") {
+  const hwid = getMachineHWID();
+
+  try {
+    const response = await fetch(`${LICENSE_SERVER}/api/v1/client/activate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        licenseKey: licenseKey.trim(),
+        hwid: hwid,
+        deviceName: "Illustrator-Workstation",
+        appName: productName
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.success &amp;&amp; result.data.valid) {
+      // Save license verification token to local storage
+      localStorage.setItem("App_License_Data", JSON.stringify(result.data));
+      localStorage.setItem("App_License_Sig", result.signature);
+      alert(`🎉 License successfully activated! Welcome, ${result.data.customerName}`);
+      return true;
+    } else {
+      alert(`⚠️ License verification error: ${result.message}`);
+      return false;
+    }
+  } catch (error) {
+    alert("Unable to reach license server. Please check your internet connection.");
+    return false;
+  }
+}
+
+// 3. Automatically check for updates on plugin startup
+async function checkForPluginUpdates(productName = "AutoSaviour Pro", currentVersion = "1.2.0") {
+  try {
+    const url = `${LICENSE_SERVER}/api/v1/client/check-update?product=${encodeURIComponent(productName)}&amp;currentVersion=${currentVersion}`;
+    const res = await fetch(url);
+    const update = await res.json();
+
+    if (update.hasUpdate) {
+      const msg = `New update available (v${update.latestVersion})!\n\nChangelog:\n${update.changelog}\n\nWould you like to download this update now?`;
+      if (confirm(msg)) {
+        // Open Google Drive / Cloud download link in default browser
+        if (window.cep &amp;&amp; window.cep.util) {
+          window.cep.util.openURLInDefaultBrowser(update.downloadUrl);
+        } else {
+          window.open(update.downloadUrl);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Update check failed:", err);
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- TAB 2: C# / .NET Windows -->
+            <div id="sdk-csharp" class="sdk-panel">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>C# / .NET (WPF, Windows Forms, Console Apps)</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codeCSharp')">Copy Code</button>
+                </div>
+                <pre><code id="codeCSharp">using System;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Management; // Add Reference: System.Management.dll
+
+public class LicenseGuard
+{
+    private static readonly string SERVER_URL = "http://localhost:4000";
+    private static readonly HttpClient client = new HttpClient();
+
+    // 1. Generate unique HWID from Windows CPU and Motherboard
+    public static string GetWindowsHardwareID()
+    {
+        try
+        {
+            string cpuId = "";
+            ManagementClass mc = new ManagementClass("Win32_Processor");
+            ManagementObjectCollection moc = mc.GetInstances();
+            foreach (ManagementObject mo in moc)
+            {
+                cpuId = mo.Properties["ProcessorId"].Value.ToString();
+                break;
+            }
+            return "WIN_" + cpuId;
+        }
+        catch
+        {
+            return "WIN_DEV_" + Environment.MachineName;
+        }
+    }
+
+    // 2. License Key Validation
+    public static async Task&lt;bool&gt; ActivateLicenseAsync(string licenseKey, string productName)
+    {
+        string hwid = GetWindowsHardwareID();
+        string json = $"{{\"licenseKey\":\"{licenseKey}\",\"hwid\":\"{hwid}\",\"deviceName\":\"{Environment.MachineName}\",\"appName\":\"{productName}\"}}";
+
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        HttpResponseMessage response = await client.PostAsync($"{SERVER_URL}/api/v1/client/activate", content);
+        string result = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            File.WriteAllText("license.key", licenseKey);
+            Console.WriteLine("Software activated successfully!");
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("License invalid or device limit reached: " + result);
+            return false;
+        }
+    }
+
+    // 3. Remote Update Check
+    public static async Task CheckForUpdatesAsync(string productName, string currentVersion)
+    {
+        string url = $"{SERVER_URL}/api/v1/client/check-update?product={Uri.EscapeDataString(productName)}&amp;currentVersion={currentVersion}";
+        string json = await client.GetStringAsync(url);
+        
+        if (json.Contains("\"hasUpdate\":true"))
+        {
+            Console.WriteLine("New update found! Opening browser download...");
+            // System.Diagnostics.Process.Start(downloadUrl);
+        }
+    }
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- TAB 3: Python -->
+            <div id="sdk-python" class="sdk-panel">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>Python (PyQt, Tkinter, Blender Addons, Desktop Scripts)</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codePython')">Copy Code</button>
+                </div>
+                <pre><code id="codePython">import requests
+import platform
+import hashlib
+import uuid
+import webbrowser
+
+SERVER_URL = "http://localhost:4000"
+
+def get_machine_hwid():
+    """Generate unique HWID using user MAC address and processor architecture"""
+    mac = uuid.getnode()
+    raw_hwid = f"{mac}_{platform.node()}_{platform.processor()}"
+    return "PY_" + hashlib.sha256(raw_hwid.encode()).hexdigest()[:16].upper()
+
+def activate_license(license_key, product_name="My Python App"):
+    hwid = get_machine_hwid()
+    payload = {
+        "licenseKey": license_key.strip(),
+        "hwid": hwid,
+        "deviceName": platform.node(),
+        "appName": product_name
+    }
+
+    try:
+        res = requests.post(f"{SERVER_URL}/api/v1/client/activate", json=payload, timeout=5)
+        data = res.json()
+
+        if data.get("success"):
+            print(f"🎉 License activated! Customer: {data['data']['customerName']}")
+            with open(".license", "w") as f:
+                f.write(license_key)
+            return True
+        else:
+            print("❌ Activation failed:", data.get("message"))
+            return False
+    except Exception as e:
+        print("Unable to connect to license server:", e)
+        return False
+
+def check_updates(product_name="My Python App", current_version="1.0.0"):
+    try:
+        url = f"{SERVER_URL}/api/v1/client/check-update"
+        params = {"product": product_name, "currentVersion": current_version}
+        res = requests.get(url, params=params, timeout=4)
+        data = res.json()
+
+        if data.get("hasUpdate"):
+            print(f"🚀 New version v{data['latestVersion']} available!")
+            print(f"Changelog: {data.get('changelog')}")
+            # Open Google Drive / Cloud download link in default browser
+            webbrowser.open(data.get("downloadUrl"))
+    except Exception as e:
+        pass</code></pre>
+              </div>
+            </div>
+
+            <!-- TAB 4: Electron / Node.js -->
+            <div id="sdk-electron" class="sdk-panel">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>Electron.js / Node.js (Cross-Platform Desktop Apps)</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codeElectron')">Copy Code</button>
+                </div>
+                <pre><code id="codeElectron">const os = require('os');
+const crypto = require('crypto');
+const { shell } = require('electron');
+
+const SERVER_URL = 'http://localhost:4000';
+
+// 1. Generate HWID from OS CPU and Hostname
+function getDeviceHWID() {
+  const cpus = os.cpus();
+  const raw = os.hostname() + "_" + (cpus[0] ? cpus[0].model : '') + "_" + os.platform();
+  return "NODE_" + crypto.createHash('md5').update(raw).digest('hex').substring(0, 16).toUpperCase();
+}
+
+// 2. Activation Function
+async function activateElectronApp(licenseKey, productName) {
+  const hwid = getDeviceHWID();
+  
+  const response = await fetch(`${SERVER_URL}/api/v1/client/activate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      licenseKey,
+      hwid,
+      deviceName: os.hostname(),
+      appName: productName
+    })
+  });
+
+  const data = await response.json();
+  if (data.success) {
+    // Save to electron-store or local secure cache
+    return { success: true, customer: data.data.customerName };
+  } else {
+    throw new Error(data.message || 'Activation failed');
+  }
+}
+
+// 3. Update Check
+async function checkElectronUpdates(productName, currentVersion) {
+  const res = await fetch(`${SERVER_URL}/api/v1/client/check-update?product=${encodeURIComponent(productName)}&amp;currentVersion=${currentVersion}`);
+  const update = await res.json();
+  if (update.hasUpdate) {
+    shell.openExternal(update.downloadUrl); // Opens Google Drive or direct download URL
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- TAB 5: C++ / Qt Native -->
+            <div id="sdk-cpp" class="sdk-panel">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>C++ / Qt Framework (Native Windows / Mac / Linux)</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codeCpp')">Copy Code</button>
+                </div>
+                <pre><code id="codeCpp">#include &lt;QCoreApplication&gt;
+#include &lt;QNetworkAccessManager&gt;
+#include &lt;QNetworkRequest&gt;
+#include &lt;QNetworkReply&gt;
+#include &lt;QJsonObject&gt;
+#include &lt;QJsonDocument&gt;
+#include &lt;QSysInfo&gt;
+#include &lt;QDebug&gt;
+
+void activateLicense(const QString &amp;licenseKey, const QString &amp;productName) {
+    QNetworkAccessManager *manager = new QNetworkAccessManager();
+    QUrl url("http://localhost:4000/api/v1/client/activate");
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QString hwid = "CPP_" + QSysInfo::machineUniqueId();
+
+    QJsonObject json;
+    json["licenseKey"] = licenseKey;
+    json["hwid"] = hwid;
+    json["deviceName"] = QSysInfo::machineHostName();
+    json["appName"] = productName;
+
+    QNetworkReply *reply = manager-&gt;post(request, QJsonDocument(json).toJson());
+
+    QObject::connect(reply, &amp;QNetworkReply::finished, [reply]() {
+        if (reply-&gt;error() == QNetworkReply::NoError) {
+            qDebug() &lt;&lt; "License Validated:" &lt;&lt; reply-&gt;readAll();
+        } else {
+            qDebug() &lt;&lt; "Error:" &lt;&lt; reply-&gt;errorString();
+        }
+        reply-&gt;deleteLater();
+    });
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- TAB 6: PHP / Web SaaS -->
+            <div id="sdk-php" class="sdk-panel">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>PHP / WordPress Plugins / Laravel SaaS</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codePhp')">Copy Code</button>
+                </div>
+                <pre><code id="codePhp">&lt;?php
+/**
+ * PHP Client License Validator (WordPress &amp; Laravel)
+ */
+function validate_software_license($license_key, $product_name) {
+    $server_url = 'http://localhost:4000/api/v1/client/activate';
+    $domain_hwid = 'WEB_' . md5($_SERVER['SERVER_NAME'] ?? 'localhost');
+
+    $body = json_encode([
+        'licenseKey' =&gt; trim($license_key),
+        'hwid' =&gt; $domain_hwid,
+        'deviceName' =&gt; $_SERVER['SERVER_NAME'] ?? 'Web Server',
+        'appName' =&gt; $product_name
+    ]);
+
+    $ch = curl_init($server_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $data = json_decode($response, true);
+    if ($http_code === 200 &amp;&amp; isset($data['success']) &amp;&amp; $data['success']) {
+        return ['valid' =&gt; true, 'customer' =&gt; $data['data']['customerName']];
+    }
+    return ['valid' =&gt; false, 'message' =&gt; $data['message'] ?? 'Invalid License'];
+}
+?&gt;</code></pre>
+              </div>
+            </div>
+
+            <!-- TAB 7: cURL / Raw REST API -->
+            <div id="sdk-rest" class="sdk-panel">
+              <div class="snippet-box">
+                <div class="snippet-header">
+                  <span>cURL / Raw REST API Reference (Postman / Any HTTP Client)</span>
+                  <button class="btn btn-secondary btn-sm" onclick="copySnippet('codeRest')">Copy Code</button>
+                </div>
+                <pre><code id="codeRest"># 1. License Activation Request (POST)
+curl -X POST http://localhost:4000/api/v1/client/activate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "licenseKey": "SAVR-XXXX-XXXX-XXXX",
+    "hwid": "MACHINE_HARDWARE_ID_123",
+    "deviceName": "Office-PC",
+    "appName": "AutoSaviour Pro"
+  }'
+
+# Response (200 OK):
+# {
+#   "success": true,
+#   "message": "Software activated successfully!",
+#   "data": {
+#     "valid": true,
+#     "product": "AutoSaviour Pro",
+#     "customerName": "John Doe",
+#     "activatedDevices": 1,
+#     "maxDevices": 2
+#   },
+#   "signature": "a3b8f... (HMAC-SHA256 Anti-Crack Signature)"
+# }
+
+# 2. Remote Software Update Check (GET)
+curl "http://localhost:4000/api/v1/client/check-update?product=AutoSaviour%20Pro&amp;currentVersion=1.0.0"
+
+# Response:
+# {
+#   "hasUpdate": true,
+#   "latestVersion": "1.2.0",
+#   "downloadUrl": "https://drive.google.com/uc?export=download&amp;id=...",
+#   "changelog": "Bug fixes and new features."
+# }</code></pre>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 8: API SIMULATOR                          -->
+        <!-- ============================================== -->
+        <section id="tab-dev-simulator" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>Plugin &amp; Client Activation Sandbox</h1>
+              <p>Simulate how your client software authenticates keys and receives signatures in real time.</p>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <div class="form-card">
+              <h3>Simulate Plugin Activation</h3>
+              <div class="form-group">
+                <label for="simKey">Enter License Key to Test</label>
+                <input type="text" id="simKey" class="input-control" placeholder="e.g. SAVR-XXXX-XXXX-XXXX">
+              </div>
+              <div class="form-group">
+                <label for="simHwid">Machine Hardware ID (HWID)</label>
+                <input type="text" id="simHwid" class="input-control" value="HWID-TEST-DESKTOP-01">
+              </div>
+              <div class="form-group">
+                <label for="simDeviceName">Device Name</label>
+                <input type="text" id="simDeviceName" class="input-control" value="Designer-PC-Office">
+              </div>
+
+              <div class="btn-group">
+                <button id="btnSimulateActivate" class="btn btn-primary">⚡ Test Activation</button>
+                <button id="btnSimulateCheckUpdate" class="btn btn-secondary">🔄 Check for Updates</button>
+              </div>
+            </div>
+
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-title">Cryptographic Server Response &amp; HMAC Signature</span>
+              </div>
+              <pre class="terminal-body" id="simResponseOutput">
+// Ready to test. Enter a license key and click "Test Activation"
+              </pre>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- 3. AUTH MODAL (Sign In / Register)             -->
+  <!-- ============================================== -->
+  <div id="authModal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-tabs">
+          <button id="tabAuthLogin" class="modal-tab active" onclick="switchAuthTab('login')">Sign In</button>
+          <button id="tabAuthRegister" class="modal-tab" onclick="switchAuthTab('register')">Create Free Account</button>
+        </div>
+        <button class="modal-close-btn" onclick="closeAuthModal()">✕</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="formLogin" class="modal-body">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" class="input-control" placeholder="e.g. developer@studio.com" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="input-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;">
+          Sign In to Workspace
+        </button>
+        <div class="modal-divider"><span>OR</span></div>
+        <button type="button" class="btn btn-secondary" style="width: 100%;" onclick="triggerDemoLogin()">
+          ⚡ Quick Test: 1-Click Demo Login
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="formRegister" class="modal-body" style="display: none;">
+        <div class="form-group">
+          <label for="regName">Your Full Name</label>
+          <input type="text" id="regName" class="input-control" placeholder="e.g. Alex Creator" required>
+        </div>
+        <div class="form-group">
+          <label for="regStudio">Studio / Brand / Company Name</label>
+          <input type="text" id="regStudio" class="input-control" placeholder="e.g. Apex Plugins Lab">
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" class="input-control" placeholder="e.g. alex@studio.com" required>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password (6+ characters)</label>
+          <input type="password" id="regPassword" class="input-control" placeholder="••••••••" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;">
+          Create Free Account &amp; Get API Key
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

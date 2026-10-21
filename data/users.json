@@ -1,0 +1,35 @@
+[
+  {
+    "id": "dev_demo_creative_studio",
+    "name": "Rahim Designer",
+    "email": "demo@creator.com",
+    "studioName": "Apex Creative Tools",
+    "passwordHash": "fef32c77dcd7f3e2dba41e99a03637f08eb5a8cedd43cba144475ab0f6d946e75bd94977dec4eed4a75fbdee7247934ffc90b5e0158a8564163ba8faaa5d55f5",
+    "passwordSalt": "84e764c1a07804c898510784623c8796",
+    "apiKey": "pk_live_apex_99af432aa7d512eb",
+    "apiSecret": "sk_live_22ccd7a50dc07730dfaf2310bf865111",
+    "createdAt": "2026-10-21T05:50:06.884Z"
+  },
+  {
+    "id": "dev_1792561818777_cyul",
+    "name": "Tanvir Creator",
+    "email": "tanvir@studio.com",
+    "studioName": "Tanvir Motion Labs",
+    "passwordHash": "ed0fbd7f0db5a889de783133a84087427cbb9a35c8502b20260f240be7d31f1e2c4b4de8603bfdde2e84a844195922382e3555570a5d2decb47340a1b5b76f48",
+    "passwordSalt": "f23d9fd1ccfd4826be29896ecaba8c16",
+    "apiKey": "pk_live_3fc80f27ba2d7e5c5065bef3",
+    "apiSecret": "sk_live_ad607ace9dfdb6fb00d06bc1fad95c815b950ca9",
+    "createdAt": "2026-10-21T05:50:18.777Z"
+  },
+  {
+    "id": "dev_1792562948732_r4xt",
+    "name": "Al Mamun",
+    "email": "alcreative360@gmail.com",
+    "studioName": "Studio Pro",
+    "passwordHash": "34a31404a9e3c6e9a99f34d0b9852169f07d9105b374a969920f13c66c52fcb30060cea4a507d36f6644ec1154851c82f37f91921349c19d72fecb1ef9a5d5be",
+    "passwordSalt": "d868dc8191e7c7a4604c5e1c187d6236",
+    "apiKey": "pk_live_68a5820ae05651eaa0537638",
+    "apiSecret": "sk_live_6fa7ebb26c24c8646e432e6d32dcbd9ce18315e9",
+    "createdAt": "2026-10-21T06:09:08.732Z"
+  }
+]
