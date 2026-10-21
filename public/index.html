@@ -951,7 +951,7 @@
  * File: licenseClient.js
  */
 
-const LICENSE_SERVER = "http://localhost:4000";
+const LICENSE_SERVER = "https://codebox-n8kk.onrender.com";
 
 // 1. Extract unique HWID from user's machine
 function getMachineHWID() {
@@ -1038,7 +1038,7 @@ using System.Management; // Add Reference: System.Management.dll
 
 public class LicenseGuard
 {
-    private static readonly string SERVER_URL = "http://localhost:4000";
+    private static readonly string SERVER_URL = "https://codebox-n8kk.onrender.com";
     private static readonly HttpClient client = new HttpClient();
 
     // 1. Generate unique HWID from Windows CPU and Motherboard
@@ -1114,7 +1114,7 @@ import hashlib
 import uuid
 import webbrowser
 
-SERVER_URL = "http://localhost:4000"
+SERVER_URL = "https://codebox-n8kk.onrender.com"
 
 def get_machine_hwid():
     """Generate unique HWID using user MAC address and processor architecture"""
@@ -1175,7 +1175,7 @@ def check_updates(product_name="My Python App", current_version="1.0.0"):
 const crypto = require('crypto');
 const { shell } = require('electron');
 
-const SERVER_URL = 'http://localhost:4000';
+const SERVER_URL = 'https://codebox-n8kk.onrender.com';
 
 // 1. Generate HWID from OS CPU and Hostname
 function getDeviceHWID() {
@@ -1237,7 +1237,7 @@ async function checkElectronUpdates(productName, currentVersion) {
 
 void activateLicense(const QString &amp;licenseKey, const QString &amp;productName) {
     QNetworkAccessManager *manager = new QNetworkAccessManager();
-    QUrl url("http://localhost:4000/api/v1/client/activate");
+    QUrl url("https://codebox-n8kk.onrender.com/api/v1/client/activate");
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
@@ -1275,7 +1275,7 @@ void activateLicense(const QString &amp;licenseKey, const QString &amp;productNa
  * PHP Client License Validator (WordPress &amp; Laravel)
  */
 function validate_software_license($license_key, $product_name) {
-    $server_url = 'http://localhost:4000/api/v1/client/activate';
+    $server_url = 'https://codebox-n8kk.onrender.com/api/v1/client/activate';
     $domain_hwid = 'WEB_' . md5($_SERVER['SERVER_NAME'] ?? 'localhost');
 
     $body = json_encode([
@@ -1313,7 +1313,7 @@ function validate_software_license($license_key, $product_name) {
                   <button class="btn btn-secondary btn-sm" onclick="copySnippet('codeRest')">Copy Code</button>
                 </div>
                 <pre><code id="codeRest"># 1. License Activation Request (POST)
-curl -X POST http://localhost:4000/api/v1/client/activate \
+curl -X POST https://codebox-n8kk.onrender.com/api/v1/client/activate \
   -H "Content-Type: application/json" \
   -d '{
     "licenseKey": "SAVR-XXXX-XXXX-XXXX",
@@ -1337,7 +1337,7 @@ curl -X POST http://localhost:4000/api/v1/client/activate \
 # }
 
 # 2. Remote Software Update Check (GET)
-curl "http://localhost:4000/api/v1/client/check-update?product=AutoSaviour%20Pro&amp;currentVersion=1.0.0"
+curl "https://codebox-n8kk.onrender.com/api/v1/client/check-update?product=AutoSaviour%20Pro&amp;currentVersion=1.0.0"
 
 # Response:
 # {

@@ -13,6 +13,7 @@ let lastBatchKeys = [];
 async function initApp() {
   initEventListeners();
   loadPublicStats();
+  updateSdkServerUrls();
 
   // Check if developer already logged in
   if (authToken) {
@@ -1259,4 +1260,24 @@ window.switchSdkTab = function(platform) {
     target.classList.add('active');
   }
 };
+
+function updateSdkServerUrls() {
+  try {
+    const isHttp = window.location.protocol.startsWith('http');
+    const currentOrigin = (isHttp && window.location.origin) 
+      ? window.location.origin 
+      : 'https://codebox-n8kk.onrender.com';
+
+    const snippetIds = ['codeCepFull', 'codeCSharp', 'codePython', 'codeElectron', 'codeCpp', 'codePhp', 'codeRest'];
+    snippetIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.innerHTML = el.innerHTML
+          .replace(/http:\/\/localhost:4000/g, currentOrigin);
+      }
+    });
+  } catch (e) {
+    console.warn('Failed to update SDK server URLs:', e);
+  }
+}
 
