@@ -10,6 +10,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
+const geoip = require('geoip-lite');
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 const GLOBAL_SIGNING_SECRET = process.env.SIGNING_SECRET || 'SECURE_ANTIPIRACY_SIGNING_KEY_2026_@!';
@@ -32,6 +34,75 @@ const RELEASES_FILE = path.join(DATA_DIR, 'releases.json');
 const AUDIT_LOG_FILE = path.join(DATA_DIR, 'audit_log.json');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
+const NOTICES_FILE = path.join(DATA_DIR, 'notices.json');
+const WEBHOOK_LOGS_FILE = path.join(DATA_DIR, 'webhook_logs.json');
+
+// Convert 2-letter ISO code to flag emoji
+function getCountryFlag(countryCode) {
+  if (!countryCode || countryCode.length !== 2) return '🌐';
+  try {
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt());
+    return String.fromCodePoint(...codePoints);
+  } catch(e) {
+    return '🌐';
+  }
+}
+
+// Common country names
+const COUNTRY_NAMES = {
+  'BD': 'Bangladesh', 'US': 'United States', 'GB': 'United Kingdom', 'CA': 'Canada',
+  'DE': 'Germany', 'FR': 'France', 'IN': 'India', 'PK': 'Pakistan', 'AU': 'Australia',
+  'NL': 'Netherlands', 'IT': 'Italy', 'ES': 'Spain', 'BR': 'Brazil', 'JP': 'Japan',
+  'SG': 'Singapore', 'AE': 'United Arab Emirates', 'MY': 'Malaysia', 'ID': 'Indonesia',
+  'SA': 'Saudi Arabia', 'TR': 'Turkey', 'PL': 'Poland', 'SE': 'Sweden', 'CH': 'Switzerland'
+};
+
+// Resolve Geo-Location from Request IP
+function resolveGeoLocation(req) {
+  let ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress || '127.0.0.1';
+  if (ip.includes(',')) ip = ip.split(',')[0].trim();
+  if (ip.startsWith('::ffff:')) ip = ip.slice(7);
+
+  // Local / Private IPs
+  if (ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.')) {
+    return {
+      ip: ip,
+      country: 'Local Network',
+      countryCode: 'LOCAL',
+      city: 'Workstation',
+      flag: '💻'
+    };
+  }
+
+  try {
+    const geo = geoip.lookup(ip);
+    if (geo && geo.country) {
+      const code = geo.country.toUpperCase();
+      return {
+        ip: ip,
+        country: COUNTRY_NAMES[code] || code,
+        countryCode: code,
+        city: geo.city || '',
+        region: geo.region || '',
+        timezone: geo.timezone || '',
+        flag: getCountryFlag(code)
+      };
+    }
+  } catch(e) {
+    console.warn('GeoIP lookup error:', e);
+  }
+
+  return {
+    ip: ip,
+    country: 'Global',
+    countryCode: 'XX',
+    city: '',
+    flag: '🌐'
+  };
+}
 
 // Helper: Read JSON Data
 function readData(file, fallback = []) {
@@ -458,11 +529,22 @@ app.get('/api/v1/analytics', authenticate, (req, res) => {
     }
   });
 
+  const geoDistribution = {};
+  licenses.forEach(l => {
+    (l.activations || []).forEach(act => {
+      const country = act.country || 'Global';
+      const flag = act.flag || '🌐';
+      const key = `${flag} ${country}`;
+      geoDistribution[key] = (geoDistribution[key] || 0) + 1;
+    });
+  });
+
   res.json({
     success: true,
     analytics: {
       productDistribution,
       tierDistribution,
+      geoDistribution,
       timeline
     }
   });
@@ -833,6 +915,8 @@ app.post('/api/v1/client/activate', (req, res) => {
   if (!target.activations) target.activations = [];
   const existingDevice = target.activations.find(a => a.hwid === hwid);
 
+  const geo = resolveGeoLocation(req);
+
   if (!existingDevice) {
     if (target.activations.length >= target.maxDevices) {
       return res.status(403).json({
@@ -846,15 +930,31 @@ app.post('/api/v1/client/activate', (req, res) => {
       hwid,
       deviceName,
       os,
-      ip: req.ip || req.connection.remoteAddress || '127.0.0.1',
+      ip: geo.ip,
+      country: geo.country,
+      countryCode: geo.countryCode,
+      city: geo.city,
+      flag: geo.flag,
       activatedAt: new Date().toISOString(),
       lastHeartbeat: new Date().toISOString()
     });
 
     writeData(LICENSES_FILE, licenses);
-    logAudit(target.developerId, 'DEVICE_ACTIVATED', { key: cleanKey, hwid, deviceName, product: target.product });
+    logAudit(target.developerId, 'DEVICE_ACTIVATED', {
+      key: cleanKey,
+      hwid,
+      deviceName,
+      product: target.product,
+      location: `${geo.flag} ${geo.city ? geo.city + ', ' : ''}${geo.country}`,
+      ip: geo.ip
+    });
   } else {
     existingDevice.lastHeartbeat = new Date().toISOString();
+    existingDevice.ip = geo.ip;
+    existingDevice.country = geo.country;
+    existingDevice.countryCode = geo.countryCode;
+    existingDevice.city = geo.city;
+    existingDevice.flag = geo.flag;
     writeData(LICENSES_FILE, licenses);
   }
 
@@ -885,7 +985,7 @@ app.post('/api/v1/client/activate', (req, res) => {
   });
 });
 
-// POST /api/v1/client/verify - Periodic & Startup validation (Instant Revoke & Unbind Detection)
+// POST /api/v1/client/verify - Periodic & Startup validation (Instant Revoke & Unbind Detection + Notice Delivery)
 app.post('/api/v1/client/verify', (req, res) => {
   const { licenseKey, hwid } = req.body;
 
@@ -939,9 +1039,21 @@ app.post('/api/v1/client/verify', (req, res) => {
     });
   }
 
-  // Update heartbeat
+  // Update heartbeat and location
+  const geo = resolveGeoLocation(req);
   deviceBinding.lastHeartbeat = new Date().toISOString();
+  deviceBinding.ip = geo.ip;
+  if (!deviceBinding.country || deviceBinding.country === 'Unknown') {
+    deviceBinding.country = geo.country;
+    deviceBinding.countryCode = geo.countryCode;
+    deviceBinding.city = geo.city;
+    deviceBinding.flag = geo.flag;
+  }
   writeData(LICENSES_FILE, licenses);
+
+  // Check active remote notice for this product or ALL
+  const notices = readData(NOTICES_FILE, []);
+  const activeNotice = notices.find(n => n.active && (n.product === target.product || n.product === 'ALL'));
 
   return res.json({
     valid: true,
@@ -950,8 +1062,247 @@ app.post('/api/v1/client/verify', (req, res) => {
     licenseKey: cleanKey,
     customerName: target.customerName,
     product: target.product,
-    expiresAt: target.expiresAt
+    expiresAt: target.expiresAt,
+    notice: activeNotice ? {
+      id: activeNotice.id,
+      title: activeNotice.title,
+      message: activeNotice.message,
+      type: activeNotice.type,
+      actionText: activeNotice.actionText,
+      actionUrl: activeNotice.actionUrl
+    } : null
   });
+});
+
+// =========================================================
+// REMOTE NOTICE & IN-APP ANNOUNCEMENT SYSTEM API
+// =========================================================
+app.get('/api/v1/notices', authenticate, (req, res) => {
+  const notices = readData(NOTICES_FILE, []).filter(n => n.developerId === req.dev.id);
+  res.json({ success: true, count: notices.length, notices });
+});
+
+app.post('/api/v1/notices', authenticate, (req, res) => {
+  const { product = 'ALL', title, message, type = 'promo', actionText = '', actionUrl = '', active = true } = req.body;
+
+  if (!title || !message) {
+    return res.status(400).json({ success: false, message: 'Notice title and message are required.' });
+  }
+
+  const notices = readData(NOTICES_FILE, []);
+  const newNotice = {
+    id: 'notice_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+    developerId: req.dev.id,
+    product: product || 'ALL',
+    title: String(title).trim(),
+    message: String(message).trim(),
+    type: type || 'promo', // promo, info, warning
+    actionText: String(actionText || '').trim(),
+    actionUrl: String(actionUrl || '').trim(),
+    active: Boolean(active),
+    createdAt: new Date().toISOString()
+  };
+
+  notices.unshift(newNotice);
+  writeData(NOTICES_FILE, notices);
+  logAudit(req.dev.id, 'NOTICE_PUBLISHED', { title, product, type });
+
+  res.json({ success: true, message: 'Remote announcement published successfully!', notice: newNotice });
+});
+
+app.post('/api/v1/notices/:id/toggle', authenticate, (req, res) => {
+  const notices = readData(NOTICES_FILE, []);
+  const target = notices.find(n => n.id === req.params.id && n.developerId === req.dev.id);
+  if (!target) {
+    return res.status(404).json({ success: false, message: 'Notice not found.' });
+  }
+
+  target.active = !target.active;
+  writeData(NOTICES_FILE, notices);
+
+  res.json({ success: true, message: `Notice status updated to ${target.active ? 'Active' : 'Inactive'}`, notice: target });
+});
+
+app.delete('/api/v1/notices/:id', authenticate, (req, res) => {
+  const notices = readData(NOTICES_FILE, []);
+  const filtered = notices.filter(n => !(n.id === req.params.id && n.developerId === req.dev.id));
+  writeData(NOTICES_FILE, filtered);
+  res.json({ success: true, message: 'Notice deleted successfully.' });
+});
+
+// Public client endpoint for checking notice standalone
+app.get('/api/v1/client/notice', (req, res) => {
+  const { product } = req.query;
+  const notices = readData(NOTICES_FILE, []);
+  const activeNotice = notices.find(n => n.active && (n.product === product || n.product === 'ALL'));
+  res.json({
+    success: true,
+    hasNotice: Boolean(activeNotice),
+    notice: activeNotice || null
+  });
+});
+
+// =========================================================
+// AUTO-PILOT LICENSE DELIVERY (WEBHOOKS) API
+// =========================================================
+
+// Helper: Handle auto-pilot order and create license
+function processAutoPilotOrder({ developerId, product, customerName, customerEmail, source = 'Webhook', orderId = '', maxDevices = 2, durationDays = null, type = 'lifetime' }) {
+  const products = readData(PRODUCTS_FILE, []);
+  const targetProduct = products.find(p => p.name.toLowerCase() === String(product).toLowerCase() || p.id === product);
+
+  const prefix = targetProduct ? targetProduct.prefix : 'PRO';
+  const resolvedProductName = targetProduct ? targetProduct.name : (product || 'AutoSaviour Pro');
+  const resolvedMaxDevices = parseInt(maxDevices, 10) || (targetProduct ? targetProduct.maxDefaultSeats : 2);
+
+  const key = generateLicenseKey(prefix);
+  const now = new Date();
+  let expiresAt = null;
+  if (type === 'trial' || type === 'yearly' || (durationDays && parseInt(durationDays, 10) > 0)) {
+    const days = parseInt(durationDays, 10) || (type === 'yearly' ? 365 : 14);
+    const exp = new Date();
+    exp.setDate(exp.getDate() + days);
+    expiresAt = exp.toISOString();
+  }
+
+  const licenses = readData(LICENSES_FILE, []);
+  const newLic = {
+    id: 'lic_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+    developerId: developerId || (targetProduct ? targetProduct.developerId : 'dev_demo_creative_studio'),
+    key,
+    product: resolvedProductName,
+    customerName: customerName || 'Valued Customer',
+    customerEmail: customerEmail || '',
+    type: type || 'lifetime',
+    durationDays: durationDays ? parseInt(durationDays, 10) : null,
+    status: 'active',
+    maxDevices: resolvedMaxDevices,
+    activations: [],
+    source: source || 'Auto-Pilot Webhook',
+    orderId: orderId || ('ORD-' + Date.now()),
+    createdAt: now.toISOString(),
+    expiresAt
+  };
+
+  licenses.unshift(newLic);
+  writeData(LICENSES_FILE, licenses);
+
+  // Log in webhook deliveries
+  const webhookLogs = readData(WEBHOOK_LOGS_FILE, []);
+  webhookLogs.unshift({
+    id: 'wh_' + Date.now(),
+    developerId: newLic.developerId,
+    source,
+    orderId: newLic.orderId,
+    customer: newLic.customerName,
+    email: newLic.customerEmail,
+    product: newLic.product,
+    key: newLic.key,
+    timestamp: now.toISOString()
+  });
+  if (webhookLogs.length > 500) webhookLogs.pop();
+  writeData(WEBHOOK_LOGS_FILE, webhookLogs);
+
+  logAudit(newLic.developerId, 'AUTO_PILOT_DELIVERY', {
+    source,
+    orderId: newLic.orderId,
+    key: newLic.key,
+    customer: newLic.customerName,
+    product: newLic.product
+  });
+
+  return newLic;
+}
+
+// 1. Universal Checkout Webhook (JSON) - Gumroad, LemonSqueezy, Payhip, Shopify, Zapier
+app.post('/api/v1/webhooks/checkout', (req, res) => {
+  const apiKey = req.query.apiKey || req.headers['x-api-key'] || req.body.apiKey;
+  const users = readData(USERS_FILE, []);
+  const dev = users.find(u => u.apiKey === apiKey);
+
+  const { product, customerName, customerEmail, source, orderId, maxDevices, durationDays, type } = req.body;
+
+  if (!product) {
+    return res.status(400).json({ success: false, message: 'Missing product parameter.' });
+  }
+
+  const devId = dev ? dev.id : (users[0] ? users[0].id : 'dev_demo_creative_studio');
+
+  const lic = processAutoPilotOrder({
+    developerId: devId,
+    product,
+    customerName: customerName || 'Customer',
+    customerEmail: customerEmail || '',
+    source: source || 'Custom Webhook',
+    orderId: orderId || req.body.id || '',
+    maxDevices,
+    durationDays,
+    type
+  });
+
+  res.json({
+    success: true,
+    message: 'Auto-pilot license generated and delivered!',
+    licenseKey: lic.key,
+    product: lic.product,
+    customerName: lic.customerName,
+    customerEmail: lic.customerEmail,
+    orderId: lic.orderId
+  });
+});
+
+// 2. Gumroad Webhook Handler (URL-encoded or JSON)
+app.post('/api/v1/webhooks/gumroad', (req, res) => {
+  const body = req.body || {};
+  const product = body.product_name || body.permalink || 'AutoSaviour Pro';
+  const customerEmail = body.email || body.buyer_email || '';
+  const customerName = body.full_name || body.name || (customerEmail ? customerEmail.split('@')[0] : 'Gumroad Customer');
+  const orderId = body.sale_id || body.order_number || '';
+
+  const lic = processAutoPilotOrder({
+    product,
+    customerName,
+    customerEmail,
+    source: 'Gumroad',
+    orderId
+  });
+
+  res.json({
+    success: true,
+    license_key: lic.key,
+    message: 'Gumroad license key created!'
+  });
+});
+
+// 3. LemonSqueezy Webhook Handler
+app.post('/api/v1/webhooks/lemonsqueezy', (req, res) => {
+  const body = req.body || {};
+  const attrs = (body.data && body.data.attributes) || {};
+
+  const customerEmail = attrs.user_email || '';
+  const customerName = attrs.user_name || 'LemonSqueezy Buyer';
+  const product = (attrs.first_order_item && attrs.first_order_item.variant_name) || 'AutoSaviour Pro';
+  const orderId = String(body.data && body.data.id || '');
+
+  const lic = processAutoPilotOrder({
+    product,
+    customerName,
+    customerEmail,
+    source: 'LemonSqueezy',
+    orderId
+  });
+
+  res.json({
+    success: true,
+    licenseKey: lic.key,
+    message: 'LemonSqueezy order processed'
+  });
+});
+
+// 4. Developer Webhook Deliveries List
+app.get('/api/v1/webhooks/logs', authenticate, (req, res) => {
+  const logs = readData(WEBHOOK_LOGS_FILE, []).filter(l => l.developerId === req.dev.id);
+  res.json({ success: true, count: logs.length, logs });
 });
 
 // GET /api/v1/client/check-update - Software checks for newer versions

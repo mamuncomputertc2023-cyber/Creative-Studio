@@ -2304,3 +2304,170 @@ canvas {
   display: block;
 }
 
+/* =========================================================
+   Geo-IP Telemetry & Distribution Grid
+========================================================= */
+.geo-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.geo-country-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background-color: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.geo-country-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 106, 78, 0.3);
+}
+
+.geo-country-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.geo-flag {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.geo-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.geo-count {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--bd-green);
+  background: var(--bd-green-light);
+  padding: 0.2rem 0.55rem;
+  border-radius: 12px;
+}
+
+/* =========================================================
+   Webhook Endpoints & Logs
+========================================================= */
+.webhook-endpoint-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.endpoint-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background-color: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  gap: 1.5rem;
+}
+
+.endpoint-meta strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  margin-bottom: 0.2rem;
+}
+
+.endpoint-meta small {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.endpoint-code-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background-color: #ffffff;
+  padding: 0.35rem 0.5rem 0.35rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.endpoint-code-wrap code {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--bd-green);
+  word-break: break-all;
+}
+
+/* =========================================================
+   Remote In-App Notices List
+========================================================= */
+.notices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.notice-card {
+  padding: 1rem 1.15rem;
+  background-color: #fafbfc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.notice-card.promo {
+  border-left: 4px solid var(--bd-green);
+}
+
+.notice-card.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.notice-card.info {
+  border-left: 4px solid #2563eb;
+}
+
+.notice-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+}
+
+.notice-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.notice-card-msg {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 0.65rem;
+}
+
+.notice-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: var(--text-dim);
+}
+
+.notice-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+

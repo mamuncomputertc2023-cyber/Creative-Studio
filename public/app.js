@@ -105,6 +105,8 @@ function initEventListeners() {
   document.getElementById('formGenLicense')?.addEventListener('submit', handleGenLicenseSubmit);
   document.getElementById('formBatchGen')?.addEventListener('submit', handleBatchGenSubmit);
   document.getElementById('formPublishRelease')?.addEventListener('submit', handlePublishReleaseSubmit);
+  document.getElementById('formCreateNotice')?.addEventListener('submit', handleCreateNoticeSubmit);
+  document.getElementById('formSimulateWebhook')?.addEventListener('submit', handleSimulateWebhookSubmit);
 
   // License Tier Custom Days Listeners
   document.getElementById('genType')?.addEventListener('change', (e) => {
@@ -457,6 +459,8 @@ window.switchTab = function(tabName) {
   if (tabName === 'dev-licenses') fetchLicenses();
   if (tabName === 'dev-products') fetchProducts();
   if (tabName === 'dev-releases') fetchReleases();
+  if (tabName === 'dev-notices') fetchNotices();
+  if (tabName === 'dev-webhooks') fetchWebhookLogs();
 };
 
 async function loadDeveloperData() {
@@ -466,6 +470,8 @@ async function loadDeveloperData() {
     fetchProducts(),
     fetchLicenses(),
     fetchReleases(),
+    fetchNotices(),
+    fetchWebhookLogs(),
     fetchAnalyticsAndDrawCharts()
   ]);
 }
@@ -496,6 +502,7 @@ async function fetchAnalyticsAndDrawCharts() {
     if (data.success && data.analytics) {
       drawTimelineChart(data.analytics.timeline || {});
       drawTiersChart(data.analytics.tierDistribution || {});
+      renderGeoDistribution(data.analytics.geoDistribution || {});
     }
 
     const auditRes = await fetch('/api/v1/audit-logs', {
@@ -704,18 +711,28 @@ function populateProductSelects(products) {
     document.getElementById('genProduct'),
     document.getElementById('batchProduct'),
     document.getElementById('relProduct'),
-    document.getElementById('filterProduct')
+    document.getElementById('filterProduct'),
+    document.getElementById('noticeProductSelect'),
+    document.getElementById('simWhProduct')
   ];
 
   selects.forEach(sel => {
     if (!sel) return;
     const isFilter = sel.id === 'filterProduct';
+    const isNotice = sel.id === 'noticeProductSelect';
     const curr = sel.value;
-    sel.innerHTML = isFilter ? '<option value="ALL">All Products</option>' : '';
+    if (isFilter) {
+      sel.innerHTML = '<option value="ALL">All Products</option>';
+    } else if (isNotice) {
+      sel.innerHTML = '<option value="ALL">🌍 All Plugins &amp; Products</option>';
+    } else {
+      sel.innerHTML = '';
+    }
+
     products.forEach(p => {
       const opt = document.createElement('option');
       opt.value = p.name;
-      opt.textContent = isFilter ? p.name : `${p.name} (${p.category || 'Plugin'})`;
+      opt.textContent = (isFilter || isNotice) ? p.name : `${p.name} (${p.category || 'Plugin'})`;
       sel.appendChild(opt);
     });
     if (curr) sel.value = curr;
@@ -895,7 +912,14 @@ function renderLicensesTable(licenses) {
           }
         </td>
         <td><span class="badge ${isRevoked ? 'badge-revoked' : 'badge-active'}">${isRevoked ? 'Revoked' : 'Active'}</span></td>
-        <td class="device-counter"><strong>${deviceCount}</strong> / ${maxDevices} Devices</td>
+        <td class="device-counter">
+          <strong>${deviceCount}</strong> / ${maxDevices} Devices
+          ${(lic.activations && lic.activations.length > 0) ? `
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:3px;">
+              ${lic.activations.map(a => `${a.flag || '🌐'} ${escapeHtml(a.city ? a.city + ', ' : '')}${escapeHtml(a.country || '')}`).filter(Boolean).join(' • ')}
+            </div>
+          ` : ''}
+        </td>
         <td style="color: var(--text-dim); font-size: 0.8rem;">${createdDate}</td>
         <td>
           <div class="table-actions">
@@ -1276,8 +1300,251 @@ function updateSdkServerUrls() {
           .replace(/http:\/\/localhost:4000/g, currentOrigin);
       }
     });
+
+    const whCheckout = document.getElementById('txtUniversalWebhookUrl');
+    if (whCheckout) whCheckout.textContent = `${currentOrigin}/api/v1/webhooks/checkout`;
+    const whGumroad = document.getElementById('txtGumroadWebhookUrl');
+    if (whGumroad) whGumroad.textContent = `${currentOrigin}/api/v1/webhooks/gumroad`;
+    const whLemon = document.getElementById('txtLemonWebhookUrl');
+    if (whLemon) whLemon.textContent = `${currentOrigin}/api/v1/webhooks/lemonsqueezy`;
   } catch (e) {
     console.warn('Failed to update SDK server URLs:', e);
+  }
+}
+
+// ==========================================
+// 7. Geo-IP Telemetry Rendering
+// ==========================================
+function renderGeoDistribution(geoDist) {
+  const container = document.getElementById('geoDistributionGrid');
+  if (!container) return;
+
+  const entries = Object.entries(geoDist);
+  if (entries.length === 0) {
+    container.innerHTML = `<div style="color: var(--text-dim); font-size: 0.85rem; padding: 1rem 0;">No active devices detected yet. Activations will automatically map to country locations here.</div>`;
+    return;
+  }
+
+  container.innerHTML = entries.map(([countryWithFlag, count]) => `
+    <div class="geo-country-card">
+      <div class="geo-country-info">
+        <span class="geo-name">${escapeHtml(countryWithFlag)}</span>
+      </div>
+      <span class="geo-count">${count} Device${count > 1 ? 's' : ''}</span>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// 8. Remote In-App Notices Controller
+// ==========================================
+async function fetchNotices() {
+  if (!authToken) return;
+  try {
+    const res = await fetch('/api/v1/notices', {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      renderNoticesList(data.notices || []);
+    }
+  } catch (err) {
+    console.error('Error fetching notices:', err);
+  }
+}
+
+function renderNoticesList(notices) {
+  const container = document.getElementById('noticeListContainer');
+  if (!container) return;
+
+  if (notices.length === 0) {
+    container.innerHTML = `<div style="color:var(--text-dim); font-size:0.85rem; padding:1.5rem; text-align:center;">No announcements created yet. Use the form on the left to broadcast your first in-app notice!</div>`;
+    return;
+  }
+
+  container.innerHTML = notices.map(n => {
+    const createdDate = new Date(n.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    const isPromo = n.type === 'promo';
+    const isWarning = n.type === 'warning';
+    const typeLabel = isPromo ? '🎁 Promo Offer' : isWarning ? '⚠️ Alert' : 'ℹ️ General News';
+
+    return `
+      <div class="notice-card ${n.type || 'promo'}">
+        <div class="notice-card-header">
+          <div>
+            <strong class="notice-card-title">${escapeHtml(n.title)}</strong>
+            <span class="badge ${n.active ? 'badge-active' : 'badge-revoked'}" style="margin-left:6px;">${n.active ? 'Broadcasting Live' : 'Paused'}</span>
+            <span class="badge badge-info" style="margin-left:4px;">${escapeHtml(n.product || 'ALL')}</span>
+          </div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">${typeLabel}</span>
+        </div>
+        <p class="notice-card-msg">${escapeHtml(n.message)}</p>
+        <div class="notice-card-footer">
+          <span>${n.actionText ? `Button: <b>${escapeHtml(n.actionText)}</b>` : 'No action button'} • ${createdDate}</span>
+          <div class="notice-card-actions">
+            <button class="btn btn-secondary btn-sm" onclick="handleToggleNotice('${escapeHtml(n.id)}')">
+              ${n.active ? 'Pause' : 'Activate'}
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="handleDeleteNotice('${escapeHtml(n.id)}')">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function handleCreateNoticeSubmit(e) {
+  e.preventDefault();
+  const product = document.getElementById('noticeProductSelect').value;
+  const type = document.getElementById('noticeType').value;
+  const title = document.getElementById('noticeTitle').value.trim();
+  const message = document.getElementById('noticeMsg').value.trim();
+  const actionText = document.getElementById('noticeActionText').value.trim();
+  const actionUrl = document.getElementById('noticeActionUrl').value.trim();
+
+  try {
+    const res = await fetch('/api/v1/notices', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ product, type, title, message, actionText, actionUrl, active: true })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('🎉 In-app notice broadcasted live!', 'success');
+      document.getElementById('formCreateNotice').reset();
+      fetchNotices();
+    } else {
+      showToast(data.message || 'Failed to create notice', 'error');
+    }
+  } catch (err) {
+    showToast('Network error while publishing notice', 'error');
+  }
+}
+
+window.handleToggleNotice = async function(id) {
+  try {
+    const res = await fetch(`/api/v1/notices/${id}/toggle`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message, 'success');
+      fetchNotices();
+    }
+  } catch (e) {
+    showToast('Failed to toggle notice status', 'error');
+  }
+};
+
+window.handleDeleteNotice = async function(id) {
+  if (!confirm('Are you sure you want to delete this announcement?')) return;
+  try {
+    const res = await fetch(`/api/v1/notices/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Notice deleted', 'success');
+      fetchNotices();
+    }
+  } catch (e) {
+    showToast('Failed to delete notice', 'error');
+  }
+};
+
+// ==========================================
+// 9. Auto-Pilot Webhooks Controller
+// ==========================================
+window.copyWebhookUrl = function(elemId) {
+  const el = document.getElementById(elemId);
+  if (!el) return;
+  copyText(el.textContent.trim());
+};
+
+async function fetchWebhookLogs() {
+  if (!authToken) return;
+  try {
+    const res = await fetch('/api/v1/webhooks/logs', {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      renderWebhookDeliveries(data.logs || []);
+    }
+  } catch (err) {
+    console.error('Error fetching webhook deliveries:', err);
+  }
+}
+
+function renderWebhookDeliveries(logs) {
+  const container = document.getElementById('webhookDeliveriesList');
+  if (!container) return;
+
+  if (logs.length === 0) {
+    container.innerHTML = `<div style="color:var(--text-dim); font-size:0.85rem; padding:1.5rem; text-align:center;">No automated deliveries recorded yet. Paste your webhook URL in Gumroad or LemonSqueezy, or run a test purchase on the left!</div>`;
+    return;
+  }
+
+  container.innerHTML = logs.map(l => {
+    const timeFormatted = new Date(l.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const dateFormatted = new Date(l.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+    return `
+      <div class="audit-item">
+        <div class="audit-left">
+          <div class="audit-action">
+            <span class="badge badge-active">${escapeHtml(l.source || 'Webhook')}</span>
+            <strong style="margin-left:6px; color:var(--text-main); font-size:0.9rem;">${escapeHtml(l.customer)}</strong>
+            <span style="font-size:0.75rem; color:var(--text-dim);">(${escapeHtml(l.email)})</span>
+          </div>
+          <div class="audit-meta">
+            Product: <strong>${escapeHtml(l.product)}</strong> • Key: <span class="key-mono" onclick="copyText('${escapeHtml(l.key)}')">${escapeHtml(l.key)}</span>
+          </div>
+        </div>
+        <div class="audit-time">${dateFormatted} ${timeFormatted}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function handleSimulateWebhookSubmit(e) {
+  e.preventDefault();
+  const product = document.getElementById('simWhProduct').value || 'AutoSaviour Pro';
+  const customerName = document.getElementById('simWhCustomerName').value.trim();
+  const customerEmail = document.getElementById('simWhCustomerEmail').value.trim();
+  const source = document.getElementById('simWhSource').value;
+
+  try {
+    const res = await fetch('/api/v1/webhooks/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({
+        product,
+        customerName,
+        customerEmail,
+        source,
+        orderId: 'SIM-' + Date.now().toString(36).toUpperCase()
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`⚡ Purchase Simulated! Generated Key: ${data.licenseKey}`, 'success');
+      fetchWebhookLogs();
+      fetchLicenses();
+      fetchStats();
+    } else {
+      showToast(data.message || 'Webhook simulation failed', 'error');
+    }
+  } catch (err) {
+    showToast('Failed to simulate webhook', 'error');
   }
 }
 

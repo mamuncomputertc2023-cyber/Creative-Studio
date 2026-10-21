@@ -412,6 +412,14 @@
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path></svg>
           Remote Updates Hub
         </button>
+        <button class="nav-item" data-tab="dev-notices">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          Remote In-App Notices
+        </button>
+        <button class="nav-item" data-tab="dev-webhooks">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          Auto-Pilot Webhooks
+        </button>
         <button class="nav-item" data-tab="dev-integration">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
           Integration Code (CEP/UXP)
@@ -534,6 +542,17 @@
                 <span class="badge badge-pulse">Breakdown</span>
               </div>
               <canvas id="chartTiers" height="180"></canvas>
+            </div>
+          </div>
+
+          <!-- Geographic Telemetry Distribution (Geo-IP) -->
+          <div class="content-box">
+            <div class="box-header">
+              <h3>🌍 Global Device &amp; Geographic Distribution (Geo-IP)</h3>
+              <span class="badge badge-info">Real-Time IP Intelligence</span>
+            </div>
+            <div id="geoDistributionGrid" class="geo-telemetry-grid">
+              <div style="color: var(--text-dim); font-size: 0.85rem; padding: 1rem 0;">No active devices detected yet. Activations will automatically map to country locations here.</div>
             </div>
           </div>
 
@@ -1395,6 +1414,179 @@ curl "https://codebox-n8kk.onrender.com/api/v1/client/check-update?product=AutoS
               <pre class="terminal-body" id="simResponseOutput">
 // Ready to test. Enter a license key and click "Test Activation"
               </pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW: REMOTE IN-APP NOTICES                    -->
+        <!-- ============================================== -->
+        <section id="tab-dev-notices" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>📢 Remote In-App Notices &amp; Broadcasts</h1>
+              <p>Broadcast live announcements, sales promotions, or maintenance alerts directly inside your user's Adobe plugin.</p>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <!-- Publish Notice Form -->
+            <div class="form-card">
+              <h3>Publish In-App Announcement</h3>
+              <form id="formCreateNotice">
+                <div class="form-group">
+                  <label for="noticeProductSelect">Target Plugin / Product</label>
+                  <select id="noticeProductSelect" class="input-control">
+                    <option value="ALL">🌍 All Plugins &amp; Products</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="noticeType">Announcement Style / Type</label>
+                  <select id="noticeType" class="input-control">
+                    <option value="promo">🎁 Promo / Special Offer (Emerald Highlight)</option>
+                    <option value="info">ℹ️ General Notice / News (Blue Badge)</option>
+                    <option value="warning">⚠️ Important Update / Alert (Amber Badge)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="noticeTitle">Notice Headline</label>
+                  <input type="text" id="noticeTitle" class="input-control" placeholder="e.g. 50% Off Black Friday Upgrade!" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="noticeMsg">Notice Content (Short text displayed in plugin)</label>
+                  <textarea id="noticeMsg" class="input-control" rows="3" placeholder="Get access to 25+ new gradient presets and instant poster actions." required></textarea>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="noticeActionText">Button Text (Optional)</label>
+                    <input type="text" id="noticeActionText" class="input-control" placeholder="e.g. Claim Discount">
+                  </div>
+                  <div class="form-group">
+                    <label for="noticeActionUrl">Button Link URL (Optional)</label>
+                    <input type="url" id="noticeActionUrl" class="input-control" placeholder="https://yourstore.com/deal">
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                  🚀 Publish Live In-App Notice
+                </button>
+              </form>
+            </div>
+
+            <!-- Active Notices List -->
+            <div class="content-box">
+              <div class="box-header">
+                <h3>Live Broadcasts &amp; History</h3>
+                <span class="badge badge-pulse">Instant Delivery</span>
+              </div>
+              <div id="noticeListContainer" class="notices-list">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW: AUTO-PILOT WEBHOOKS                      -->
+        <!-- ============================================== -->
+        <section id="tab-dev-webhooks" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1>⚡ Auto-Pilot License Delivery (Webhooks)</h1>
+              <p>Automatically issue and deliver authentic license keys upon customer purchase from Gumroad, LemonSqueezy, Payhip, or custom stores.</p>
+            </div>
+          </div>
+
+          <!-- Webhook URLs Card -->
+          <div class="content-box" style="margin-bottom: 1.5rem;">
+            <div class="box-header">
+              <h3>🔗 Your Dedicated Webhook Endpoints</h3>
+              <span class="badge badge-active">100% Free Automation</span>
+            </div>
+            <div class="webhook-endpoint-grid">
+              <div class="endpoint-item">
+                <div class="endpoint-meta">
+                  <strong>Universal JSON Checkout Webhook</strong>
+                  <small>For custom websites, Payhip, Stripe, Zapier, Make.com</small>
+                </div>
+                <div class="endpoint-code-wrap">
+                  <code id="txtUniversalWebhookUrl">https://codebox-n8kk.onrender.com/api/v1/webhooks/checkout</code>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="copyWebhookUrl('txtUniversalWebhookUrl')">Copy</button>
+                </div>
+              </div>
+
+              <div class="endpoint-item">
+                <div class="endpoint-meta">
+                  <strong>Gumroad Ping URL</strong>
+                  <small>Paste into Gumroad Settings -&gt; Advanced -&gt; Ping</small>
+                </div>
+                <div class="endpoint-code-wrap">
+                  <code id="txtGumroadWebhookUrl">https://codebox-n8kk.onrender.com/api/v1/webhooks/gumroad</code>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="copyWebhookUrl('txtGumroadWebhookUrl')">Copy</button>
+                </div>
+              </div>
+
+              <div class="endpoint-item">
+                <div class="endpoint-meta">
+                  <strong>LemonSqueezy Webhook URL</strong>
+                  <small>Paste into LemonSqueezy Settings -&gt; Webhooks (Order Created)</small>
+                </div>
+                <div class="endpoint-code-wrap">
+                  <code id="txtLemonWebhookUrl">https://codebox-n8kk.onrender.com/api/v1/webhooks/lemonsqueezy</code>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="copyWebhookUrl('txtLemonWebhookUrl')">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <!-- Test Auto-Pilot Simulator -->
+            <div class="form-card">
+              <h3>Simulate Automated Purchase (Test Auto-Pilot)</h3>
+              <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1rem;">
+                Test how the webhook instantly generates an authentic license key and delivers it without human interaction.
+              </p>
+              <form id="formSimulateWebhook">
+                <div class="form-group">
+                  <label for="simWhProduct">Product Purchased</label>
+                  <select id="simWhProduct" class="input-control"></select>
+                </div>
+                <div class="form-group">
+                  <label for="simWhCustomerName">Buyer Full Name</label>
+                  <input type="text" id="simWhCustomerName" class="input-control" value="Michael Designer" required>
+                </div>
+                <div class="form-group">
+                  <label for="simWhCustomerEmail">Buyer Email</label>
+                  <input type="email" id="simWhCustomerEmail" class="input-control" value="buyer@creativestudio.com" required>
+                </div>
+                <div class="form-group">
+                  <label for="simWhSource">Store Platform</label>
+                  <select id="simWhSource" class="input-control">
+                    <option value="Gumroad">Gumroad Store</option>
+                    <option value="LemonSqueezy">LemonSqueezy</option>
+                    <option value="Payhip">Payhip Checkout</option>
+                    <option value="Custom Store">Custom SaaS Cart</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  ⚡ Simulate Purchase &amp; Auto-Deliver Key
+                </button>
+              </form>
+            </div>
+
+            <!-- Recent Automated Deliveries Log -->
+            <div class="content-box">
+              <div class="box-header">
+                <h3>Recent Auto-Pilot Deliveries</h3>
+                <span class="badge badge-active">Live Deliveries</span>
+              </div>
+              <div id="webhookDeliveriesList" class="audit-list">
+                <!-- Dynamically rendered -->
+              </div>
             </div>
           </div>
         </section>
