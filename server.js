@@ -884,6 +884,74 @@ app.post('/api/v1/client/activate', (req, res) => {
   });
 });
 
+// POST /api/v1/client/verify - Periodic & Startup validation (Instant Revoke & Unbind Detection)
+app.post('/api/v1/client/verify', (req, res) => {
+  const { licenseKey, hwid } = req.body;
+
+  if (!licenseKey || !hwid) {
+    return res.status(400).json({
+      valid: false,
+      code: 'MISSING_PARAMS',
+      message: 'License key and HWID required.'
+    });
+  }
+
+  const licenses = readData(LICENSES_FILE, []);
+  const cleanKey = String(licenseKey).trim().toUpperCase();
+  const target = licenses.find(l => l.key.toUpperCase() === cleanKey);
+
+  if (!target) {
+    return res.json({
+      valid: false,
+      code: 'KEY_NOT_FOUND',
+      message: 'License key was not found or has been deleted.'
+    });
+  }
+
+  // 1. Check if revoked
+  if (target.status === 'revoked') {
+    return res.json({
+      valid: false,
+      code: 'LICENSE_REVOKED',
+      message: 'This license has been revoked or suspended by the developer.'
+    });
+  }
+
+  // 2. Check if expired
+  if (target.expiresAt && new Date(target.expiresAt) < new Date()) {
+    return res.json({
+      valid: false,
+      code: 'LICENSE_EXPIRED',
+      message: 'This software license has expired.'
+    });
+  }
+
+  // 3. Check if device is bound in activations
+  if (!target.activations) target.activations = [];
+  const deviceBinding = target.activations.find(a => a.hwid === hwid);
+
+  if (!deviceBinding) {
+    return res.json({
+      valid: false,
+      code: 'DEVICE_UNBOUND',
+      message: 'This device is no longer bound to the license (may have been reset from the portal).'
+    });
+  }
+
+  // Update heartbeat
+  deviceBinding.lastHeartbeat = new Date().toISOString();
+  writeData(LICENSES_FILE, licenses);
+
+  return res.json({
+    valid: true,
+    code: 'VALID',
+    message: 'License is active and valid.',
+    customerName: target.customerName,
+    product: target.product,
+    expiresAt: target.expiresAt
+  });
+});
+
 // GET /api/v1/client/check-update - Software checks for newer versions
 app.get('/api/v1/client/check-update', (req, res) => {
   const { product, currentVersion } = req.query;
