@@ -1,5 +1,47 @@
 [
   {
+    "id": "log_1792839345160_rn6k",
+    "developerId": "dev_1792562948732_r4xt",
+    "event": "DEVELOPER_LOGGED_IN",
+    "details": {
+      "email": "alcreative360@gmail.com"
+    },
+    "timestamp": "2026-10-24T10:55:45.160Z"
+  },
+  {
+    "id": "log_1792592455444_4c8s",
+    "developerId": "dev_demo_creative_studio",
+    "event": "NOTICE_PUBLISHED",
+    "details": {
+      "title": "Flash Sale",
+      "product": "AutoSaviour Pro",
+      "type": "promo"
+    },
+    "timestamp": "2026-10-21T14:20:55.444Z"
+  },
+  {
+    "id": "log_1792592455410_a4ug",
+    "developerId": "dev_demo_creative_studio",
+    "event": "DEVELOPER_LOGGED_IN",
+    "details": {
+      "email": "demo@creator.com"
+    },
+    "timestamp": "2026-10-21T14:20:55.410Z"
+  },
+  {
+    "id": "log_1792592445477_76cy",
+    "developerId": "dev_demo_creative_studio",
+    "event": "AUTO_PILOT_DELIVERY",
+    "details": {
+      "source": "Gumroad",
+      "orderId": "ORD-1792592445468",
+      "key": "SAVR-TR9Y-BH8D-XGK9",
+      "customer": "Test Buyer",
+      "product": "AutoSaviour Pro"
+    },
+    "timestamp": "2026-10-21T14:20:45.477Z"
+  },
+  {
     "id": "log_1792565701886_kjsf",
     "developerId": "dev_1792562948732_r4xt",
     "event": "DEVELOPER_LOGGED_IN",

@@ -22,6 +22,7 @@ app.use(cors());
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/downloads', express.static(path.join(__dirname, '..', 'dist_cloud')));
 
 // Ensure data folder exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -36,6 +37,7 @@ const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 const NOTICES_FILE = path.join(DATA_DIR, 'notices.json');
 const WEBHOOK_LOGS_FILE = path.join(DATA_DIR, 'webhook_logs.json');
+const CLOUD_CATALOG_FILE = path.join(DATA_DIR, 'cloud_catalog.json');
 
 // Convert 2-letter ISO code to flag emoji
 function getCountryFlag(countryCode) {
@@ -1465,6 +1467,147 @@ app.get('/api/v1/public/stats', (req, res) => {
     totalLicenses: licenses.length,
     totalActivations
   });
+});
+
+// =========================================================
+// ASTUTE STUDIO MANAGER CLOUD INTEGRATION ENDPOINTS
+// =========================================================
+
+// Helper: Format Google Drive direct download URL
+function resolveDownloadUrl(item, req) {
+  const host = `${req.protocol}://${req.get('host')}`;
+  
+  // 1. If explicit Google Drive URL or ID is set
+  if (item.googleDriveUrl && item.googleDriveUrl.trim() !== '') {
+    return item.googleDriveUrl.trim();
+  }
+  if (item.googleDriveId && item.googleDriveId.trim() !== '') {
+    let id = item.googleDriveId.trim();
+    // If full google drive sharing link was pasted, extract the ID
+    const match = id.match(/\/d\/([a-zA-Z0-9_-]+)/) || id.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match) id = match[1];
+    return `https://drive.google.com/uc?export=download&id=${id}`;
+  }
+
+  // 2. Direct server fallback
+  const subPath = item.zipFile.startsWith('res-') ? 'bundles' : 'plugins';
+  return `${host}/downloads/${subPath}/${item.zipFile}`;
+}
+
+// GET /api/v1/manager/catalog - Central Dynamic Cloud Catalog
+app.get('/api/v1/manager/catalog', (req, res) => {
+  const catalog = readData(CLOUD_CATALOG_FILE, { plugins: [], bundles: [] });
+  
+  const pluginsWithUrls = (catalog.plugins || []).map(p => ({
+    ...p,
+    downloadUrl: resolveDownloadUrl(p, req)
+  }));
+
+  const bundlesWithUrls = (catalog.bundles || []).map(b => ({
+    ...b,
+    downloadUrl: resolveDownloadUrl(b, req)
+  }));
+
+  res.json({
+    success: true,
+    version: catalog.version || '1.0.0',
+    generatedAt: catalog.generatedAt,
+    agentPort: 48200,
+    serverUrl: `${req.protocol}://${req.get('host')}`,
+    totalPlugins: pluginsWithUrls.length,
+    totalBundles: bundlesWithUrls.length,
+    plugins: pluginsWithUrls,
+    bundles: bundlesWithUrls
+  });
+});
+
+// GET /api/v1/manager/download/:type/:id - Secure Download / Google Drive Redirect
+app.get('/api/v1/manager/download/:type/:id', (req, res) => {
+  const { type, id } = req.params;
+  const catalog = readData(CLOUD_CATALOG_FILE, { plugins: [], bundles: [] });
+  const list = type === 'bundle' ? catalog.bundles : catalog.plugins;
+  const item = list.find(x => x.id === id);
+
+  if (!item) {
+    return res.status(404).json({ success: false, message: 'Item not found in catalog' });
+  }
+
+  // If Google Drive link exists, 302 redirect directly to Google Drive
+  if (item.googleDriveUrl || item.googleDriveId) {
+    const url = resolveDownloadUrl(item, req);
+    return res.redirect(url);
+  }
+
+  // Otherwise serve directly from server dist_cloud folder
+  const subFolder = type === 'bundle' ? 'bundles' : 'plugins';
+  const filePath = path.join(__dirname, '..', 'dist_cloud', subFolder, item.zipFile);
+
+  if (fs.existsSync(filePath)) {
+    return res.download(filePath, item.zipFile);
+  }
+
+  res.status(404).json({ success: false, message: 'Download archive not found on server' });
+});
+
+// POST /api/v1/manager/update-cloud-link - Set Google Drive link or ID for any plugin/bundle
+app.post('/api/v1/manager/update-cloud-link', (req, res) => {
+  const { id, type, googleDriveId, googleDriveUrl } = req.body;
+  if (!id) {
+    return res.status(400).json({ success: false, message: 'Item ID is required.' });
+  }
+
+  const catalog = readData(CLOUD_CATALOG_FILE, { plugins: [], bundles: [] });
+  const list = type === 'bundle' ? catalog.bundles : catalog.plugins;
+  const item = list.find(x => x.id === id);
+
+  if (!item) {
+    return res.status(404).json({ success: false, message: 'Item not found in catalog' });
+  }
+
+  if (googleDriveId !== undefined) item.googleDriveId = googleDriveId.trim();
+  if (googleDriveUrl !== undefined) item.googleDriveUrl = googleDriveUrl.trim();
+
+  // If googleDriveId was a full share link, auto format
+  if (item.googleDriveId) {
+    const match = item.googleDriveId.match(/\/d\/([a-zA-Z0-9_-]+)/) || item.googleDriveId.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match) {
+      item.googleDriveId = match[1];
+      item.googleDriveUrl = `https://drive.google.com/uc?export=download&id=${match[1]}`;
+    }
+  }
+
+  writeData(CLOUD_CATALOG_FILE, catalog);
+  res.json({ success: true, message: `Cloud link updated for ${item.name}!`, item });
+});
+
+// POST /api/v1/manager/batch-update-links - Bulk update Google Drive links
+app.post('/api/v1/manager/batch-update-links', (req, res) => {
+  const { mappings } = req.body; // Array of { id, type, driveLink }
+  if (!Array.isArray(mappings)) {
+    return res.status(400).json({ success: false, message: 'mappings array is required' });
+  }
+
+  const catalog = readData(CLOUD_CATALOG_FILE, { plugins: [], bundles: [] });
+  let updatedCount = 0;
+
+  for (const m of mappings) {
+    const list = m.type === 'bundle' ? catalog.bundles : catalog.plugins;
+    const item = list.find(x => x.id === m.id);
+    if (item && m.driveLink) {
+      let link = m.driveLink.trim();
+      const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/) || link.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match) {
+        item.googleDriveId = match[1];
+        item.googleDriveUrl = `https://drive.google.com/uc?export=download&id=${match[1]}`;
+      } else {
+        item.googleDriveUrl = link;
+      }
+      updatedCount++;
+    }
+  }
+
+  writeData(CLOUD_CATALOG_FILE, catalog);
+  res.json({ success: true, message: `Updated ${updatedCount} items with Google Drive links!` });
 });
 
 // SPA Fallback

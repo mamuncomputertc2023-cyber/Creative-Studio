@@ -428,6 +428,12 @@
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
           Plugin API Simulator
         </button>
+
+        <div class="nav-section-title" style="color: #ff5e13; margin-top: 10px;">Creative Studio Sync</div>
+        <button class="nav-item" data-tab="dev-astute-manager" style="border-left: 3px solid #ff5e13;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#ff5e13" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          Creative Studio Hub <span id="agentNavBadge" style="margin-left:auto; font-size: 0.65rem; background: rgba(0, 210, 106, 0.2); color: #00d26a; padding: 2px 6px; border-radius: 99px;">Ready</span>
+        </button>
       </nav>
 
       <!-- Sidebar Footer -->
@@ -460,6 +466,10 @@
           </div>
         </div>
         <div class="topbar-actions">
+          <div id="desktopManagerIndicator" style="display: flex; align-items: center; gap: 8px; font-size: 0.78rem; background: rgba(255, 94, 19, 0.1); border: 1px solid rgba(255, 94, 19, 0.3); padding: 5px 12px; border-radius: 999px; cursor: pointer;" onclick="switchTab('dev-astute-manager')">
+            <span id="agentDot" style="width: 8px; height: 8px; border-radius: 50%; background: #00d26a; box-shadow: 0 0 8px #00d26a;"></span>
+            <span id="agentStatusText" style="color: var(--text-main); font-weight: 600;">Desktop Manager: Ready</span>
+          </div>
           <button id="btnWorkspaceExport" class="btn btn-secondary btn-sm" title="Export complete workspace backup">
             💾 Export JSON
           </button>
@@ -1588,6 +1598,64 @@ curl "https://codebox-n8kk.onrender.com/api/v1/client/check-update?product=AutoS
                 <!-- Dynamically rendered -->
               </div>
             </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW: CREATIVE STUDIO DESKTOP MANAGER HUB      -->
+        <!-- ============================================== -->
+        <section id="tab-dev-astute-manager" class="view-panel">
+          <div class="panel-header">
+            <div>
+              <h1 style="display:flex; align-items:center; gap: 10px;">
+                <span style="background: linear-gradient(135deg, #ff5e13, #e63900); color: #fff; width: 34px; height: 34px; border-radius: 8px; display:inline-flex; align-items:center; justify-content:center; font-size: 1.1rem; font-weight:800;">CS</span>
+                Creative Studio Cloud Hub
+              </h1>
+              <p>Control, deploy and synchronize all Creative Studio plugins and 7 resource bundles directly to your local Adobe apps.</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" onclick="syncWithDesktopAgent()">🔄 Check Manager Connection</button>
+              <button class="btn btn-primary btn-sm" style="background:#ff5e13;" onclick="installAllFromWeb()">⚡ 1-Click Install All to Adobe</button>
+            </div>
+          </div>
+
+          <!-- Agent Connection Status Card -->
+          <div class="content-box" style="margin-bottom: 1.5rem; border: 1px solid rgba(255, 94, 19, 0.35); background: linear-gradient(135deg, rgba(255, 94, 19, 0.05), rgba(0, 106, 78, 0.05));">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                  <span id="webAgentStatusDot" style="width: 10px; height: 10px; border-radius: 50%; background: #00d26a; box-shadow: 0 0 10px #00d26a;"></span>
+                  <h3 id="webAgentStatusTitle" style="font-size: 1.05rem; font-weight: 700;">Creative Studio Manager Connected (Port 48200)</h3>
+                  <span class="badge" id="webAgentStatusBadge" style="background: rgba(0, 210, 106, 0.2); color: #00d26a;">Agent Online</span>
+                </div>
+                <p id="webAgentStatusDesc" style="color: var(--text-dim); font-size: 0.85rem;">
+                  Detected Environments: <strong id="webAgentDetectedHosts" style="color: var(--text-main);">Scanning...</strong>
+                </p>
+              </div>
+
+              <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary btn-sm" onclick="openDesktopManagerWindow()">🖥️ Open Creative Studio Manager</button>
+                <button class="btn btn-secondary btn-sm" onclick="launchLocalAgentScript()">⚡ Start Local Agent</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Filter Pills -->
+          <div style="display: flex; gap: 8px; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 6px;">
+            <button class="btn btn-sm btn-primary filter-manager-btn active" data-filter="all" onclick="filterManagerItems('all')">All Items (87)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="plugin" onclick="filterManagerItems('plugin')">📦 All Creative Plugins (24)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Texture Packs" onclick="filterManagerItems('Texture Packs')">🖼️ Texture Packs (22)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Brush Sets" onclick="filterManagerItems('Brush Sets')">🖌️ Brush Sets (3)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Graphic Styles" onclick="filterManagerItems('Graphic Styles')">🎨 Graphic Styles (12)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Profile Packs" onclick="filterManagerItems('Profile Packs')">📐 Profile Packs (5)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Workspaces" onclick="filterManagerItems('Workspaces')">🖥️ Workspaces (9)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Scripts" onclick="filterManagerItems('Scripts')">📜 Scripts (6)</button>
+            <button class="btn btn-sm btn-secondary filter-manager-btn" data-filter="Swatches" onclick="filterManagerItems('Swatches')">🎨 Swatches (6)</button>
+          </div>
+
+          <!-- Manager Items Grid -->
+          <div id="webManagerGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px;">
+            <!-- Rendered dynamically -->
           </div>
         </section>
 

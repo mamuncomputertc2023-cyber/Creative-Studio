@@ -15,6 +15,10 @@ async function initApp() {
   loadPublicStats();
   updateSdkServerUrls();
 
+  // Desktop Manager Agent Live Status Check
+  checkDesktopManagerStatus();
+  setInterval(checkDesktopManagerStatus, 4000);
+
   // Check if developer already logged in
   if (authToken) {
     await verifySession();
@@ -461,6 +465,7 @@ window.switchTab = function(tabName) {
   if (tabName === 'dev-releases') fetchReleases();
   if (tabName === 'dev-notices') fetchNotices();
   if (tabName === 'dev-webhooks') fetchWebhookLogs();
+  if (tabName === 'dev-astute-manager') loadWebManagerCatalog();
 };
 
 async function loadDeveloperData() {
@@ -1547,4 +1552,297 @@ async function handleSimulateWebhookSubmit(e) {
     showToast('Failed to simulate webhook', 'error');
   }
 }
+
+// =========================================================
+// 8. ASTUTE DESKTOP MANAGER & ASSETS HUB INTEGRATION MODULE
+// =========================================================
+const DESKTOP_AGENT_URL = 'http://127.0.0.1:48200';
+let desktopAgentOnline = false;
+let desktopAgentData = null;
+let webManagerCatalog = { plugins: [], bundles: [] };
+let activeManagerFilter = 'all';
+
+async function checkDesktopManagerStatus() {
+  const dot = document.getElementById('agentDot');
+  const txt = document.getElementById('agentStatusText');
+  const navBadge = document.getElementById('agentNavBadge');
+  const webDot = document.getElementById('webAgentStatusDot');
+  const webTitle = document.getElementById('webAgentStatusTitle');
+  const webBadge = document.getElementById('webAgentStatusBadge');
+  const webHosts = document.getElementById('webAgentDetectedHosts');
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const res = await fetch(`${DESKTOP_AGENT_URL}/api/status`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      desktopAgentData = await res.json();
+      desktopAgentOnline = true;
+
+      if (dot) {
+        dot.style.background = '#00d26a';
+        dot.style.boxShadow = '0 0 10px #00d26a';
+      }
+      if (txt) txt.textContent = `Creative Studio Manager: Online (v${desktopAgentData.managerVersion})`;
+      if (navBadge) {
+        navBadge.textContent = 'Connected';
+        navBadge.style.color = '#00d26a';
+        navBadge.style.background = 'rgba(0, 210, 106, 0.2)';
+      }
+
+      if (webDot) webDot.style.background = '#00d26a';
+      if (webTitle) webTitle.textContent = `Creative Studio Manager Connected (v${desktopAgentData.managerVersion} • Port 48200)`;
+      if (webBadge) {
+        webBadge.textContent = 'Agent Online 🟢';
+        webBadge.style.background = 'rgba(0, 210, 106, 0.2)';
+        webBadge.style.color = '#00d26a';
+      }
+      if (webHosts && desktopAgentData.detectedHosts) {
+        const hostNames = desktopAgentData.detectedHosts.map(h => h.name).join(', ');
+        webHosts.textContent = hostNames || 'No hosts detected';
+      }
+      return;
+    }
+  } catch (err) {
+    // Offline
+  }
+
+  desktopAgentOnline = false;
+  if (dot) {
+    dot.style.background = '#e53e3e';
+    dot.style.boxShadow = '0 0 6px #e53e3e';
+  }
+  if (txt) txt.textContent = 'Creative Studio Manager: Offline (Click to Launch)';
+  if (navBadge) {
+    navBadge.textContent = 'Offline';
+    navBadge.style.color = '#e53e3e';
+    navBadge.style.background = 'rgba(229, 62, 62, 0.2)';
+  }
+  if (webDot) webDot.style.background = '#e53e3e';
+  if (webTitle) webTitle.textContent = 'Creative Studio Manager Offline';
+  if (webBadge) {
+    webBadge.textContent = 'Agent Offline 🔴';
+    webBadge.style.background = 'rgba(229, 62, 62, 0.2)';
+    webBadge.style.color = '#e53e3e';
+  }
+  if (webHosts) webHosts.textContent = 'Start Creative Studio Manager to detect Adobe apps';
+}
+
+async function syncWithDesktopAgent() {
+  showToast('Connecting to Creative Studio Manager...', 'info');
+  await checkDesktopManagerStatus();
+  if (desktopAgentOnline) {
+    showToast('Connected to Creative Studio Manager successfully!', 'success');
+  } else {
+    showToast('Creative Studio Manager is not running. Please start it on port 48200.', 'error');
+  }
+  await loadWebManagerCatalog();
+}
+
+async function loadWebManagerCatalog() {
+  await checkDesktopManagerStatus();
+
+  // Prefer catalog from local agent if online, else website fallback
+  try {
+    const url = desktopAgentOnline ? `${DESKTOP_AGENT_URL}/api/catalog` : `/api/v1/manager/catalog`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.plugins && data.bundles) {
+      webManagerCatalog = data;
+      renderWebManagerItems();
+    }
+  } catch (err) {
+    console.error('Failed to load manager catalog:', err);
+  }
+}
+
+function filterManagerItems(filter) {
+  activeManagerFilter = filter;
+  document.querySelectorAll('.filter-manager-btn').forEach(btn => {
+    if (btn.getAttribute('data-filter') === filter) {
+      btn.classList.add('btn-primary', 'active');
+      btn.classList.remove('btn-secondary');
+    } else {
+      btn.classList.remove('btn-primary', 'active');
+      btn.classList.add('btn-secondary');
+    }
+  });
+  renderWebManagerItems();
+}
+
+function renderWebManagerItems() {
+  const container = document.getElementById('webManagerGrid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const plugins = webManagerCatalog.plugins || [];
+  const bundles = webManagerCatalog.bundles || [];
+
+  let itemsToRender = [];
+
+  if (activeManagerFilter === 'all') {
+    itemsToRender = [
+      ...plugins.map(p => ({ ...p, isPlugin: true })),
+      ...bundles.map(b => ({ ...b, isBundle: true }))
+    ];
+  } else if (activeManagerFilter === 'plugin') {
+    itemsToRender = plugins.map(p => ({ ...p, isPlugin: true }));
+  } else {
+    itemsToRender = bundles.filter(b => b.category === activeManagerFilter).map(b => ({ ...b, isBundle: true }));
+  }
+
+  if (itemsToRender.length === 0) {
+    container.innerHTML = `<div style="grid-column: 1 / -1; padding: 2.5rem; text-align: center; color: var(--text-dim);">No items found for this category filter.</div>`;
+    return;
+  }
+
+  itemsToRender.forEach(item => {
+    const isPlugin = item.isPlugin;
+    const type = isPlugin ? 'plugin' : 'bundle';
+    const installed = !!item.installed;
+    const hostTag = item.app === 'illustrator' ? '<span class="badge" style="background:#ff9a00; color:#fff;">Ai Illustrator</span>' : '<span class="badge" style="background:#31a8ff; color:#fff;">Ps Photoshop</span>';
+
+    const card = document.createElement('div');
+    card.className = 'content-box';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.justifyContent = 'space-between';
+    card.style.border = installed ? '1px solid rgba(0, 210, 106, 0.4)' : '1px solid var(--border)';
+
+    card.innerHTML = `
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 8px;">
+          <div>
+            <div style="font-size:0.72rem; color:var(--text-dim); text-transform:uppercase; font-weight:700; margin-bottom:2px;">
+              ${escapeHtml(item.category)}
+            </div>
+            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-main); margin-bottom:4px;">
+              ${escapeHtml(item.name)}
+            </h3>
+          </div>
+          <span class="badge ${installed ? 'badge-active' : 'badge-info'}">
+            ${installed ? 'Deployed ✅' : 'Available'}
+          </span>
+        </div>
+
+        <p style="font-size:0.84rem; color:var(--text-dim); line-height:1.5; margin-bottom:12px;">
+          ${escapeHtml(item.description)}
+        </p>
+
+        <div style="display:flex; gap:10px; font-size:0.75rem; color:var(--text-dim); font-family:var(--font-mono); margin-bottom:14px; flex-wrap:wrap;">
+          <span>${isPlugin ? `Ver: ${item.version}` : `Files: ${item.itemsCount}`}</span>
+          <span>Size: ${item.size}</span>
+          ${hostTag}
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:12px; margin-top:auto;">
+        <span style="font-size:0.75rem; color:var(--text-dim);">
+          ${desktopAgentOnline ? (installed ? 'Installed on PC' : 'Ready to install') : 'Desktop Manager needed'}
+        </span>
+
+        <div style="display:flex; gap:8px;">
+          ${desktopAgentOnline && installed ? `
+            <button class="btn btn-secondary btn-sm" onclick="uninstallItemFromWeb('${type}', '${escapeHtml(item.id)}')">
+              Remove
+            </button>
+          ` : ''}
+
+          <button class="btn ${installed ? 'btn-secondary' : 'btn-primary'} btn-sm" id="btn-web-${type}-${escapeHtml(item.id)}" onclick="installItemFromWeb('${type}', '${escapeHtml(item.id)}')">
+            ${installed ? '🔄 Re-Sync' : '⚡ 1-Click Install'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+async function installItemFromWeb(type, id) {
+  if (!desktopAgentOnline) {
+    if (confirm('Desktop Manager is not running on your computer. Would you like to launch it now?')) {
+      launchLocalAgentScript();
+    }
+    return;
+  }
+
+  const btn = document.getElementById(`btn-web-${type}-${id}`);
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Deploying... ⏳';
+  }
+
+  try {
+    const res = await fetch(`${DESKTOP_AGENT_URL}/api/install`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, id })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || 'Deployed to Adobe successfully!', 'success');
+      await loadWebManagerCatalog();
+    } else {
+      showToast('Install failed: ' + data.error, 'error');
+    }
+  } catch (err) {
+    showToast('Failed to communicate with Desktop Manager: ' + err.message, 'error');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+async function uninstallItemFromWeb(type, id) {
+  if (!desktopAgentOnline) return;
+  if (!confirm(`Remove this ${type} from your local Adobe directories?`)) return;
+
+  try {
+    const res = await fetch(`${DESKTOP_AGENT_URL}/api/uninstall`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, id })
+    });
+    const data = await res.json();
+    showToast(data.message || 'Item removed', 'info');
+    await loadWebManagerCatalog();
+  } catch (err) {
+    showToast('Error removing item: ' + err.message, 'error');
+  }
+}
+
+async function installAllFromWeb() {
+  if (!desktopAgentOnline) {
+    showToast('Please start Creative Studio Manager first to deploy files.', 'error');
+    return;
+  }
+
+  if (!confirm('This will install all 24 Creative Studio Plugins and all 7 Resource Bundles (Textures, Brushes, Graphic Styles, Profiles, Workspaces, Scripts, Swatches) into your Adobe applications in 1-Click. Proceed?')) return;
+
+  showToast('Deploying full suite to Adobe Illustrator & Photoshop... Please wait.', 'info');
+
+  try {
+    const res = await fetch(`${DESKTOP_AGENT_URL}/api/install-all`, { method: 'POST' });
+    const data = await res.json();
+    showToast(data.message || 'Everything installed and synchronized!', 'success');
+    await loadWebManagerCatalog();
+  } catch (err) {
+    showToast('Error during master install: ' + err.message, 'error');
+  }
+}
+
+window.openDesktopManagerWindow = function() {
+  window.open(DESKTOP_AGENT_URL, '_blank');
+};
+
+window.downloadDesktopManagerZip = function() {
+  showToast('Creative Studio Manager is located in your project folder under desktop-manager/', 'info');
+};
+
+window.launchLocalAgentScript = function() {
+  window.open(`${DESKTOP_AGENT_URL}`, '_blank');
+};
+
 
